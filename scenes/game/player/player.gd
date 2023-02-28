@@ -5,8 +5,9 @@ extends CharacterBody2D
 
 
 func _physics_process(_delta: float) -> void:
-	var moveX := Input.get_axis("ui_left", "ui_right")
-	var moveY := Input.get_axis("ui_up", "ui_down")
+	var move := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
+	var moveX := move.x
+	var moveY := move.y
 
 	velocity.x = (moveX * speed) if moveX else move_toward(velocity.x, 0, speed)
 	velocity.y = (moveY * speed) if moveY else move_toward(velocity.y, 0, speed)
