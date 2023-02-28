@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ypvca")
 deadzone_size = 2.0
-clampzone_size = 18.0
+clampzone_size = 16.0
 joystick_mode = 1
 
 [node name="Base" type="TextureRect" parent="."]

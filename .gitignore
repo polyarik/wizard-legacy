@@ -15,3 +15,5 @@ mono_crash.*.json
 android/
 .vscode/
 *.log
+
+assets/.raw/

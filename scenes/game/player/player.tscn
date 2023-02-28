@@ -1,9 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://fhik253psdi5"]
 
 [ext_resource type="Script" path="res://scenes/game/player/player.gd" id="1_nkwtq"]
-[ext_resource type="Texture2D" uid="uid://dqurvgjd6a6ox" path="res://icon.png" id="2_hlkw2"]
+[ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/player/player.png" id="2_ojrej"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v41s8"]
+radius = 8
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_nkwtq")
@@ -12,4 +13,4 @@ script = ExtResource("1_nkwtq")
 shape = SubResource("CircleShape2D_v41s8")
 
 [node name="PlayerSprite" type="Sprite2D" parent="PlayerShape"]
-texture = ExtResource("2_hlkw2")
+texture = ExtResource("2_ojrej")

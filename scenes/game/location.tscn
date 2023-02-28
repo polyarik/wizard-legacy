@@ -8,6 +8,7 @@
 [node name="Player" parent="." instance=ExtResource("1_e0lns")]
 position = Vector2(72, 128)
 
-[node name="GUI" type="Node" parent="Player"]
+[node name="GUI" type="CanvasLayer" parent="Player"]
+follow_viewport_enabled = true
 
 [node name="VirtualJoystick" parent="Player/GUI" instance=ExtResource("2_ao85m")]
