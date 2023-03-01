@@ -7,15 +7,19 @@ extends CharacterBody2D
 
 
 func _physics_process(_delta: float) -> void:
-	var move := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
-	var moveX := move.x
-	var moveY := move.y
+	move()
+	# TODO - spell casting
+	pick_animation_state()
+
+func move() -> void:
+	var movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
+	var moveX := movement.x
+	var moveY := movement.y
 
 	velocity.x = (moveX * speed) if moveX else move_toward(velocity.x, 0, speed)
 	velocity.y = (moveY * speed) if moveY else move_toward(velocity.y, 0, speed)
 
 	move_and_slide()
-	pick_animation_state()
 
 func pick_animation_state() -> void:
 	if (velocity != Vector2.ZERO):
