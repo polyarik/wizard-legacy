@@ -47,8 +47,10 @@ func process_spell_casting() -> void:
 		cast_spell(spell)
 		in_casting_animation = true
 
+# TODO - implement different spell types behaviour
 func cast_spell(spell: PackedScene) -> void:
 	var spell_inst := spell.instantiate()
+	spell_inst.spawned_from = self
 	
 	owner.add_child(spell_inst) # TODO - add child to $Location/Projectiles via signal
 	spell_inst.position = casting_point.global_position
@@ -62,7 +64,7 @@ func pick_animation_state() -> void:
 	else:
 		animation_state_machine.travel("idle")
 
-func _on_player_animation_tree_animation_finished(anim_name:StringName):
+func _on_player_animation_tree_animation_finished(anim_name: StringName):
 	match anim_name:
 		"attack":
 			in_casting_animation = false

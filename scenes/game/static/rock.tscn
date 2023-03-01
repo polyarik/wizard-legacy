@@ -6,7 +6,7 @@
 radius = 6.25
 height = 20.0
 
-[node name="Rock" type="StaticBody2D"]
+[node name="Rock" type="StaticBody2D" groups=["Static"]]
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
