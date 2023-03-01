@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/player/player.png" id="2_ojrej"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v41s8"]
-radius = 8.24621
+radius = 7.25
 
 [sub_resource type="Animation" id="Animation_4egaw"]
 length = 0.001
@@ -154,6 +154,7 @@ shape = SubResource("CircleShape2D_v41s8")
 
 [node name="PlayerSprite" type="Sprite2D" parent="PlayerShape"]
 texture = ExtResource("2_ojrej")
+offset = Vector2(0, -2)
 hframes = 2
 vframes = 3
 frame = 2
