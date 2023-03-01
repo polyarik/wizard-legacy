@@ -55,6 +55,8 @@ y_sort_enabled = true
 [node name="Slime" parent="Enteties" instance=ExtResource("5_c5dkc")]
 position = Vector2(42, 90)
 
+[node name="Projectiles" type="Node2D" parent="."]
+
 [node name="DemoTerrain" type="TileMap" parent="."]
 y_sort_enabled = true
 tile_set = SubResource("TileSet_o22wp")

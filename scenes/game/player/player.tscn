@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://fhik253psdi5"]
+[gd_scene load_steps=27 format=3 uid="uid://fhik253psdi5"]
 
 [ext_resource type="Script" path="res://scenes/game/player/player.gd" id="1_nkwtq"]
+[ext_resource type="PackedScene" uid="uid://de2k20xar378x" path="res://scenes/game/particles/magic_missile/magic_missile.tscn" id="2_kpdva"]
 [ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/player/player.png" id="2_ojrej"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v41s8"]
@@ -23,7 +24,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_fcl6t"]
 resource_name = "attack"
-length = 0.2
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -31,10 +32,10 @@ tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [1]
+"values": [1, 0]
 }
 
 [sub_resource type="Animation" id="Animation_appgp"]
@@ -115,7 +116,6 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t4i4r"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ceqf3"]
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wyst6"]
 
@@ -142,13 +142,14 @@ states/idle/position = Vector2(254, 85)
 states/walk/node = SubResource("AnimationNodeAnimation_08j1j")
 states/walk/position = Vector2(679, 85)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vht6e"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_3dkot"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_t4i4r"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_ceqf3"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_wyst6"), "idle", "damaged", SubResource("AnimationNodeStateMachineTransition_juveu"), "walk", "damaged", SubResource("AnimationNodeStateMachineTransition_beeeo"), "attack", "damaged", SubResource("AnimationNodeStateMachineTransition_phcen"), "damaged", "idle", SubResource("AnimationNodeStateMachineTransition_x8ti7"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_omn4w")]
-graph_offset = Vector2(-15, -152)
+graph_offset = Vector2(-9, -74)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_0x1nf"]
 
 [node name="Player" type="CharacterBody2D"]
 safe_margin = 0.2
 script = ExtResource("1_nkwtq")
+spell_book = Array[PackedScene]([ExtResource("2_kpdva")])
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
@@ -171,3 +172,8 @@ tree_root = SubResource("AnimationNodeStateMachine_3xrq7")
 anim_player = NodePath("../PlayerAnimations")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_0x1nf")
+
+[node name="CastingPoint" type="Marker2D" parent="."]
+position = Vector2(-9, -10)
+
+[connection signal="animation_finished" from="PlayerAnimationTree" to="." method="_on_player_animation_tree_animation_finished"]
