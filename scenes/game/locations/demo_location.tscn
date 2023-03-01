@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://8tm03c0ibcn8"]
+[gd_scene load_steps=10 format=3 uid="uid://8tm03c0ibcn8"]
 
 [ext_resource type="PackedScene" uid="uid://fhik253psdi5" path="res://scenes/game/player/player.tscn" id="1_n21k5"]
 [ext_resource type="PackedScene" uid="uid://buyvavyuwmccw" path="res://addons/virtual_joystick/joystick/virtual_joystick.tscn" id="2_jkuvy"]
 [ext_resource type="Texture2D" uid="uid://ctelqfs6qptcc" path="res://assets/sprites/terrain/demo_terrain.png" id="3_8wk6o"]
 [ext_resource type="PackedScene" uid="uid://c7wy6qbyiwlbl" path="res://scenes/game/static/rock.tscn" id="4_3a43y"]
+[ext_resource type="PackedScene" uid="uid://ggdle54pnmt0" path="res://scenes/game/enemies/slime/slime.tscn" id="5_c5dkc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wau7a"]
 
@@ -47,6 +48,12 @@ position = Vector2(72, 128)
 
 [node name="PlayerRemoteTransform" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera")
+
+[node name="Enteties" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Slime" parent="Enteties" instance=ExtResource("5_c5dkc")]
+position = Vector2(42, 90)
 
 [node name="DemoTerrain" type="TileMap" parent="."]
 y_sort_enabled = true

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ggdle54pnmt0"]
+
+[ext_resource type="Texture2D" uid="uid://cwcnlue1vquf1" path="res://scenes/game/enemies/slime/slime.png" id="1_e7w54"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vow54"]
+radius = 3.85
+height = 9.0
+
+[node name="Slime" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CapsuleShape2D_vow54")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+texture = ExtResource("1_e7w54")

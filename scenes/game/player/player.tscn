@@ -147,14 +147,16 @@ graph_offset = Vector2(-15, -152)
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_0x1nf"]
 
 [node name="Player" type="CharacterBody2D"]
+safe_margin = 0.2
 script = ExtResource("1_nkwtq")
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_v41s8")
 
 [node name="PlayerSprite" type="Sprite2D" parent="PlayerShape"]
 texture = ExtResource("2_ojrej")
-offset = Vector2(0, -2)
+offset = Vector2(0, -3)
 hframes = 2
 vframes = 3
 frame = 2
