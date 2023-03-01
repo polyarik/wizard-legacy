@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://ggdle54pnmt0"]
+[gd_scene load_steps=4 format=3 uid="uid://ggdle54pnmt0"]
 
 [ext_resource type="Texture2D" uid="uid://cwcnlue1vquf1" path="res://scenes/game/enemies/slime/slime.png" id="1_e7w54"]
+[ext_resource type="Script" path="res://scenes/game/enemies/slime/slime.gd" id="1_f03nk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vow54"]
 radius = 3.85
 height = 9.0
 
-[node name="Slime" type="CharacterBody2D"]
+[node name="Slime" type="CharacterBody2D" groups=["Enemy"]]
+safe_margin = 0.4
+script = ExtResource("1_f03nk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)

@@ -146,7 +146,7 @@ graph_offset = Vector2(-9, -74)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_0x1nf"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 safe_margin = 0.2
 script = ExtResource("1_nkwtq")
 spell_book = Array[PackedScene]([ExtResource("2_kpdva")])

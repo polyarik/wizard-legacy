@@ -53,7 +53,7 @@ remote_path = NodePath("../../Camera")
 y_sort_enabled = true
 
 [node name="Slime" parent="Enteties" instance=ExtResource("5_c5dkc")]
-position = Vector2(42, 90)
+position = Vector2(44, 94)
 
 [node name="Projectiles" type="Node2D" parent="."]
 
@@ -75,3 +75,6 @@ layer_1/tile_data = PackedInt32Array(-720911, 1, 131072, -655375, 1, 131072, -58
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(72, 128)
+
+[node name="Slime" parent="." instance=ExtResource("5_c5dkc")]
+position = Vector2(158, 236)
