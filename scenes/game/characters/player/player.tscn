@@ -1,8 +1,8 @@
-[gd_scene load_steps=27 format=3 uid="uid://fhik253psdi5"]
+[gd_scene load_steps=27 format=3 uid="uid://caagcfxut0gva"]
 
-[ext_resource type="Script" path="res://scenes/game/player/player.gd" id="1_nkwtq"]
-[ext_resource type="PackedScene" uid="uid://dbjn7oppdphpi" path="res://scenes/game/particles/magic_missile/magic_missile.tscn" id="2_kpdva"]
-[ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/player/player.png" id="2_ojrej"]
+[ext_resource type="Script" path="res://scenes/game/characters/player/player.gd" id="1_dxvgr"]
+[ext_resource type="PackedScene" uid="uid://dbjn7oppdphpi" path="res://scenes/game/particles/magic_missile/magic_missile.tscn" id="2_v7h7u"]
+[ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/characters/player/player.png" id="3_e7se3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v41s8"]
 radius = 7.25
@@ -148,15 +148,15 @@ graph_offset = Vector2(-9, -74)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 safe_margin = 0.2
-script = ExtResource("1_nkwtq")
-spell_book = Array[PackedScene]([ExtResource("2_kpdva")])
+script = ExtResource("1_dxvgr")
+spell_book = Array[PackedScene]([ExtResource("2_v7h7u")])
 
 [node name="PlayerShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_v41s8")
 
 [node name="PlayerSprite" type="Sprite2D" parent="PlayerShape"]
-texture = ExtResource("2_ojrej")
+texture = ExtResource("3_e7se3")
 offset = Vector2(0, -3)
 hframes = 2
 vframes = 3
