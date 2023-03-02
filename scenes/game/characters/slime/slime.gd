@@ -3,7 +3,8 @@ class_name Slime # TODO - extract base logic to "Enemy" class
 extends CharacterBody2D
 
 
-var health := 20.0
+var max_health := 20.0
+var health := max_health
 var speed := 20.0
 var target: PlayerCharacter
 
@@ -18,7 +19,7 @@ func _physics_process(_delta):
 		move_and_slide()
 
 func apply_damage(damage: float) -> void:
-	health = clamp(health - damage, 0.0, 100.0)
+	health = clamp(health - damage, 0.0, max_health)
 
 	if health == 0.0:
 		queue_free()

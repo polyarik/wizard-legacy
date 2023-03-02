@@ -3,15 +3,17 @@ class_name PlayerCharacter
 extends CharacterBody2D
 
 
+@export var max_health := 100.0
+@export var health := 100.0
 @export var speed := 64.0
 var spells: Array[Spell]
+var spells_timer: Array[Timer]
 
 @onready var casting_point := $CastingPoint
 @onready var animation_tree := $PlayerAnimationTree
 @onready var animation_state_machine = animation_tree.get("parameters/playback")
 
 # TEMP
-var cast_time
 var in_casting_animation := false
 
 
@@ -19,6 +21,15 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 	for spell in new_spells:
 		if spell:
 			spells.append(spell)
+
+			var spell_timer := Timer.new()
+			add_child(spell_timer)
+
+			spell_timer.wait_time = spell.cooldown
+			spell_timer.one_shot = true
+			spell_timer.timeout.connect(func(): spells[-1].on_cooldown = false) # TEST - needs testing
+
+			spells_timer.append(spell_timer)
 
 			# TODO - create necessary nodes for casting the spell
 
@@ -38,23 +49,26 @@ func move() -> void:
 	move_and_slide()
 
 func process_spell_casting() -> void:
-	var spell_scene: PackedScene = null
-	# TODO - pick a spell
-	## check cooldown and cast codition
+	var spell: Spell = null
+	# TODO - implement spells priority
+	# TODO - pick a spell that can be casted
 
 	# TEMP - testing
-	if (Input.is_action_just_pressed("ui_accept")):
-		spell_scene = spells[0].scene
+	var i = 0
 
-	if (spell_scene):
-		cast_spell(spell_scene)
+	if spells[i].can_be_casted():
+		spell = spells[i]
+
+	if (spell):
+		cast_spell(spell)
+		spells_timer[i].start()
 		in_casting_animation = true
 
 # TODO - implement different spell types behaviour
-func cast_spell(spell_scene: PackedScene) -> void:
-	var spell_inst := spell_scene.instantiate()
+func cast_spell(spell: Spell) -> void:
+	var spell_inst := spell.cast()
 	spell_inst.spawned_from = self
-	
+
 	owner.add_child(spell_inst) # TODO - add child to $Location/Projectiles via signal
 	spell_inst.position = casting_point.global_position
 
