@@ -4,7 +4,11 @@ extends Node
 
 var _spell_collection := {
 	# TODO - also pass levels and their specific upgrades
-	magic_missile = Spell.new(preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"), [""], 1.0),
+	magic_missile = Spell.new(
+		preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"),
+		{max_distance = 128}, #visible_target = true}, # TODO
+		1.0
+	),
 }
 
 

@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var speed := 64.0
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
+var spells_target: Array[Node2D] # TEMP
 
 @onready var casting_point := $CastingPoint
 @onready var animation_tree := $PlayerAnimationTree
@@ -17,21 +18,72 @@ var spells_timer: Array[Timer]
 var in_casting_animation := false
 
 
+# TODO - refactor
 func learn_spells(new_spells: Array[Spell]) -> void:
 	for spell in new_spells:
 		if spell:
 			spells.append(spell)
 
 			var spell_timer := Timer.new()
-			add_child(spell_timer)
 
 			spell_timer.wait_time = spell.cooldown
 			spell_timer.one_shot = true
 			spell_timer.timeout.connect(func(): spells[-1].on_cooldown = false) # TEST - needs testing
 
+			add_child(spell_timer)
 			spells_timer.append(spell_timer)
 
-			# TODO - create necessary nodes for casting the spell
+			if spell.cast_conditions.has("max_distance"):
+				spells_target.append(null)
+
+				var area := Area2D.new()
+				area.collision_layer = 0
+				area.collision_mask = 4
+				add_child(area)
+
+				var circle_shape = CircleShape2D.new()
+				circle_shape.radius = spell.cast_conditions["max_distance"]
+
+				var collision_shape = CollisionShape2D.new()
+				collision_shape.shape = circle_shape
+				area.add_child(collision_shape)
+
+				# BUG - doesn't handle enemy movement inside the area!
+				area.body_entered.connect(func(body: Node2D):
+					if body.is_in_group("Enemy"):
+						if spells_target[-1]:
+							var curr_dist = global_position.distance_to(spells_target[-1].global_position)
+							var new_dist = global_position.distance_to(body.global_position)
+
+							if new_dist < curr_dist:
+								spells_target[-1] = body
+						else:
+							spells_target[-1] = body
+
+						spells[-1].conditions_met["max_distance"] = true
+						
+						print(spells[-1].conditions_met)
+				)
+
+				# TODO - rewrite!
+				area.body_exited.connect(func(body: Node2D):
+					if body == spells_target[-1]:
+						spells_target[-1] = null
+						spells[-1].conditions_met["max_distance"] = false
+
+						var remaining_bodies := area.get_overlapping_bodies()
+
+						for remaining_body in remaining_bodies:
+							if remaining_body != body and remaining_body.is_in_group("Enemy"):
+								spells_target[-1] = remaining_body
+								spells[-1].conditions_met["max_distance"] = true
+								
+								print(spells[-1].conditions_met)
+				)
+
+				if spell.cast_conditions.has("visible_target"):
+					# TODO
+					print("-_-")
 
 func _physics_process(_delta: float) -> void:
 	move()
@@ -50,6 +102,7 @@ func move() -> void:
 
 func process_spell_casting() -> void:
 	var spell: Spell = null
+	var target_pos: Vector2 # TEMP
 	# TODO - implement spells priority
 	# TODO - pick a spell that can be casted
 
@@ -58,19 +111,21 @@ func process_spell_casting() -> void:
 
 	if spells[i].can_be_casted():
 		spell = spells[i]
+		target_pos = spells_target[i].global_position
 
 	if (spell):
-		cast_spell(spell)
+		cast_spell(spell, target_pos) # TEMP
 		spells_timer[i].start()
 		in_casting_animation = true
 
 # TODO - implement different spell types behaviour
-func cast_spell(spell: Spell) -> void:
+func cast_spell(spell: Spell, target_pos: Vector2) -> void:
 	var spell_inst := spell.cast()
 	spell_inst.spawned_from = self
+	spell_inst.position = casting_point.global_position
+	spell_inst.direction = casting_point.global_position.direction_to(target_pos) # TEMP
 
 	owner.add_child(spell_inst) # TODO - add child to $Location/Projectiles via signal
-	spell_inst.position = casting_point.global_position
 
 func pick_animation_state() -> void:
 	if (velocity != Vector2.ZERO):
@@ -85,3 +140,4 @@ func _on_player_animation_tree_animation_finished(anim_name: StringName):
 	match anim_name:
 		"attack":
 			in_casting_animation = false
+

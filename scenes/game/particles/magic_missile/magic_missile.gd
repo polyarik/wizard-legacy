@@ -13,9 +13,6 @@ var damage := 5.0
 func _ready():
 	hanlde_lifetime()
 
-	# TODO - detect the nearest enemy and set direction
-	direction = Vector2(-1, -1).normalized() # TEMP
-
 func hanlde_lifetime() -> void:
 	var lifetime_timer := Timer.new()
 	add_child(lifetime_timer)

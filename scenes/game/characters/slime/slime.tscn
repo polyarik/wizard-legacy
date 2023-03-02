@@ -8,6 +8,7 @@ radius = 3.85
 height = 9.0
 
 [node name="Slime" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 5
 safe_margin = 0.4
 script = ExtResource("1_4spfw")
 
