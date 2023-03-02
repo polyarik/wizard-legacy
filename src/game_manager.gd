@@ -15,8 +15,8 @@ func _ready():
 	player = location.get_tree().get_first_node_in_group("Player")
 
 	# TODO - only pass the picked spells to the player
-	var spells := [
+	var spells: Array[Spell] = [
 		spell_book.get_spell("magic_missile")
 	]
-	
+
 	player.learn_spells(spells)

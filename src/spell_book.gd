@@ -4,18 +4,12 @@ extends Node
 ##   their levels and upgrades
 
 var _spell_collection := {
-	magic_missile = [
-		{
-			cast_conditions = [""],
-			cooldown = 1.0,
-			scene = preload("res://scenes/game/particles/magic_missile/magic_missile.tscn")
-			# TODO - add some scene tweaks parameter to pass arguments in an instance constructor
-		},
-	],
+	# TODO - also pass levels and their specific upgrades
+	magic_missile = Spell.new(preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"), [""], 1.0),
 }
 
-func get_spell(spell_name, lvl:=0) -> Dictionary:
-	if _spell_collection.has(spell_name) and lvl < len(_spell_collection[spell_name]):
-		return _spell_collection[spell_name][lvl]
-
-	return {}
+func get_spell(spell_name: StringName) -> Spell:
+	if _spell_collection.has(spell_name):
+		return _spell_collection[spell_name]
+	
+	return null

@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 
 @export var speed := 64.0
-var spells: Array[Dictionary]
+var spells: Array[Spell]
 
 @onready var casting_point := $CastingPoint
 @onready var animation_tree := $PlayerAnimationTree
@@ -15,7 +15,7 @@ var cast_time
 var in_casting_animation := false
 
 
-func learn_spells(new_spells: Array) -> void:
+func learn_spells(new_spells: Array[Spell]) -> void:
 	for spell in new_spells:
 		if spell:
 			spells.append(spell)
@@ -38,21 +38,21 @@ func move() -> void:
 	move_and_slide()
 
 func process_spell_casting() -> void:
-	var spell: PackedScene = null
+	var spell_scene: PackedScene = null
 	# TODO - pick a spell
 	## check cooldown and cast codition
 
 	# TEMP - testing
 	if (Input.is_action_just_pressed("ui_accept")):
-		spell = spells[0].scene
+		spell_scene = spells[0].scene
 
-	if (spell):
-		cast_spell(spell)
+	if (spell_scene):
+		cast_spell(spell_scene)
 		in_casting_animation = true
 
 # TODO - implement different spell types behaviour
-func cast_spell(spell: PackedScene) -> void:
-	var spell_inst := spell.instantiate()
+func cast_spell(spell_scene: PackedScene) -> void:
+	var spell_inst := spell_scene.instantiate()
 	spell_inst.spawned_from = self
 	
 	owner.add_child(spell_inst) # TODO - add child to $Location/Projectiles via signal
