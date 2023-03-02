@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmhkylv71ncbk"
-path="res://.godot/imported/demo_particle.png-cce7bedd2472dcf05d8840dd7d50a71d.ctex"
+path="res://.godot/imported/magic_missile.png-cce8f64503b81cfbc0dc5b1c09a73be3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/particles/demo_particle.png"
-dest_files=["res://.godot/imported/demo_particle.png-cce7bedd2472dcf05d8840dd7d50a71d.ctex"]
+source_file="res://scenes/game/particles/magic_missile/magic_missile.png"
+dest_files=["res://.godot/imported/magic_missile.png-cce8f64503b81cfbc0dc5b1c09a73be3.ctex"]
 
 [params]
 

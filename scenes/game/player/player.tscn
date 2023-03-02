@@ -1,7 +1,7 @@
 [gd_scene load_steps=27 format=3 uid="uid://fhik253psdi5"]
 
 [ext_resource type="Script" path="res://scenes/game/player/player.gd" id="1_nkwtq"]
-[ext_resource type="PackedScene" uid="uid://de2k20xar378x" path="res://scenes/game/particles/magic_missile/magic_missile.tscn" id="2_kpdva"]
+[ext_resource type="PackedScene" uid="uid://dbjn7oppdphpi" path="res://scenes/game/particles/magic_missile/magic_missile.tscn" id="2_kpdva"]
 [ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/player/player.png" id="2_ojrej"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v41s8"]
@@ -38,6 +38,22 @@ tracks/0/keys = {
 "values": [1, 0]
 }
 
+[sub_resource type="Animation" id="Animation_xsn4u"]
+resource_name = "damaged"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
 [sub_resource type="Animation" id="Animation_appgp"]
 resource_name = "idle"
 loop_mode = 1
@@ -69,22 +85,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [2, 3]
-}
-
-[sub_resource type="Animation" id="Animation_xsn4u"]
-resource_name = "damaged"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qetrv"]
