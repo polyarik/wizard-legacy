@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 
 @export var speed := 64.0
-@export var spell_book: Array[PackedScene] # TEMP
+var spells: Array[Dictionary]
 
 @onready var casting_point := $CastingPoint
 @onready var animation_tree := $PlayerAnimationTree
@@ -15,9 +15,12 @@ var cast_time
 var in_casting_animation := false
 
 
-func _ready() -> void:
-	# TODO - process the spell_book
-	pass
+func learn_spells(new_spells: Array) -> void:
+	for spell in new_spells:
+		if spell:
+			spells.append(spell)
+
+			# TODO - create necessary nodes for casting the spell
 
 func _physics_process(_delta: float) -> void:
 	move()
@@ -41,7 +44,7 @@ func process_spell_casting() -> void:
 
 	# TEMP - testing
 	if (Input.is_action_just_pressed("ui_accept")):
-		spell = spell_book[0]
+		spell = spells[0].scene
 
 	if (spell):
 		cast_spell(spell)

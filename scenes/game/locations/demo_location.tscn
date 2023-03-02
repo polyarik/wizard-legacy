@@ -36,7 +36,7 @@ physics_layer_0/physics_material = SubResource("PhysicsMaterial_wau7a")
 sources/0 = SubResource("TileSetAtlasSource_8w4gt")
 sources/1 = SubResource("TileSetScenesCollectionSource_ce3gy")
 
-[node name="DemoLocation" type="Node2D"]
+[node name="DemoLocation" type="Node2D" groups=["Location"]]
 y_sort_enabled = true
 
 [node name="Characters" type="Node2D" parent="."]
