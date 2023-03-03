@@ -130,7 +130,9 @@ func cast_spell(spell: Spell, target_pos: Vector2) -> void:
 
 func apply_damage(_damage: float) -> void:
 	health = clamp(health - _damage, 0.0, max_health)
+	# TEMP
 	is_hurt = true
+	in_casting_animation = false
 
 	print(health)
 
