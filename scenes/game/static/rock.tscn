@@ -1,19 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7wy6qbyiwlbl"]
+[gd_scene load_steps=2 format=3 uid="uid://c7wy6qbyiwlbl"]
 
 [ext_resource type="Texture2D" uid="uid://e387x0doucif" path="res://assets/sprites/static/rock.png" id="1_kvkm5"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rglp1"]
-radius = 6.25
-height = 20.0
-
 [node name="Rock" type="StaticBody2D" groups=["Static"]]
+collision_mask = 0
 
-[node name="Shape" type="CollisionShape2D" parent="."]
+[node name="Shape" type="CollisionPolygon2D" parent="."]
+modulate = Color(0, 1, 0, 1)
 position = Vector2(0, 3)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_rglp1")
+polygon = PackedVector2Array(6, 0.999978, 5.99998, -6.00002, 0.999964, -10, -4.00004, -9.99999, -6.00002, -5.99998, -5.99999, 4.00002, 3.62396e-05, 10, 3.00004, 9.99999, 4.00002, 5.99999, 4.00001, 1.99999)
 
-[node name="Sprite" type="Sprite2D" parent="Shape"]
-position = Vector2(-3, 1.31134e-07)
-rotation = -1.5708
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(1.07288e-05, 0)
 texture = ExtResource("1_kvkm5")

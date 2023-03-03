@@ -1,25 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://caagcfxut0gva"]
+[gd_scene load_steps=24 format=3 uid="uid://caagcfxut0gva"]
 
 [ext_resource type="Script" path="res://scenes/game/characters/player/player.gd" id="1_dxvgr"]
 [ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/game/characters/player/player.png" id="3_e7se3"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_v41s8"]
-radius = 7.25
-
-[sub_resource type="Animation" id="Animation_4egaw"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [2]
-}
 
 [sub_resource type="Animation" id="Animation_fcl6t"]
 resource_name = "attack"
@@ -27,7 +9,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -43,7 +25,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -60,7 +42,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -76,7 +58,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerShape/PlayerSprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -88,7 +70,6 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qetrv"]
 _data = {
-"RESET": SubResource("Animation_4egaw"),
 "attack": SubResource("Animation_fcl6t"),
 "hurt": SubResource("Animation_xsn4u"),
 "idle": SubResource("Animation_appgp"),
@@ -145,20 +126,21 @@ graph_offset = Vector2(15, -80)
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_0x1nf"]
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
-collision_layer = 3
+collision_layer = 2
 safe_margin = 0.2
 script = ExtResource("1_dxvgr")
 
-[node name="PlayerShape" type="CollisionShape2D" parent="."]
+[node name="PlayerShape" type="CollisionPolygon2D" parent="."]
+self_modulate = Color(0, 0.498039, 1, 1)
 position = Vector2(0, -5)
-shape = SubResource("CircleShape2D_v41s8")
+polygon = PackedVector2Array(-4, 7, 4, 7, 4, -7, -4, -7)
 
-[node name="PlayerSprite" type="Sprite2D" parent="PlayerShape"]
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
 texture = ExtResource("3_e7se3")
 offset = Vector2(0, -3)
 hframes = 2
 vframes = 3
-frame = 2
 
 [node name="PlayerAnimations" type="AnimationPlayer" parent="."]
 libraries = {
