@@ -133,7 +133,7 @@ script = ExtResource("1_dxvgr")
 [node name="PlayerShape" type="CollisionPolygon2D" parent="."]
 self_modulate = Color(0, 0.498039, 1, 1)
 position = Vector2(0, -5)
-polygon = PackedVector2Array(-4, 7, 4, 7, 4, -7, -4, -7)
+polygon = PackedVector2Array(-4, 4, -2, 7, 2, 7, 4, 4, 4, -3, 2, -6, -2, -6, -4, -3)
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 position = Vector2(0, -5)

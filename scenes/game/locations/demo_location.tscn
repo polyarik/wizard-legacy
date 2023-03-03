@@ -49,10 +49,13 @@ position = Vector2(72, 128)
 remote_path = NodePath("../../../Camera")
 
 [node name="Slime" parent="Characters" instance=ExtResource("2_0iq0t")]
-position = Vector2(37, 75)
+position = Vector2(34, 89)
 
 [node name="Slime2" parent="Characters" instance=ExtResource("2_0iq0t")]
-position = Vector2(181, 269)
+position = Vector2(175, 283)
+
+[node name="Slime3" parent="Characters" instance=ExtResource("2_0iq0t")]
+position = Vector2(-256, 284)
 
 [node name="Projectiles" type="Node2D" parent="."]
 
