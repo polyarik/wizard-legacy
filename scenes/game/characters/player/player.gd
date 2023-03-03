@@ -121,7 +121,7 @@ func cast_spell(spell: Spell, target_pos: Vector2) -> void:
 	spell_inst.position = casting_point.global_position
 	spell_inst.direction = casting_point.global_position.direction_to(target_pos) # TEMP
 
-	owner.add_child(spell_inst) # TODO - add child to $Location/Projectiles via signal
+	GameManager.add_projectile(spell_inst)
 
 func pick_animation_state() -> void:
 	if (velocity != Vector2.ZERO):
