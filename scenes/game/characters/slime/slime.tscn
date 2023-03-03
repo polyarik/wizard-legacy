@@ -12,9 +12,9 @@ collision_layer = 5
 safe_margin = 0.4
 script = ExtResource("1_4spfw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="SlimeShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_vow54")
 
-[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+[node name="Sprite2D" type="Sprite2D" parent="SlimeShape"]
 texture = ExtResource("2_vpgo5")
