@@ -25,12 +25,12 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			spells.append(spell)
 
 			var spell_timer := Timer.new()
+			add_child(spell_timer)
 
 			spell_timer.wait_time = spell.cooldown
 			spell_timer.one_shot = true
 			spell_timer.timeout.connect(func(): spells[-1].on_cooldown = false) # TEST - needs testing
 
-			add_child(spell_timer)
 			spells_timer.append(spell_timer)
 
 			if spell.cast_conditions.has("max_distance"):
@@ -61,8 +61,6 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 							spells_target[-1] = body
 
 						spells[-1].conditions_met["max_distance"] = true
-						
-						print(spells[-1].conditions_met)
 				)
 
 				# TODO - rewrite!
@@ -77,8 +75,6 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 							if remaining_body != body and remaining_body.is_in_group("Enemy"):
 								spells_target[-1] = remaining_body
 								spells[-1].conditions_met["max_distance"] = true
-								
-								print(spells[-1].conditions_met)
 				)
 
 				if spell.cast_conditions.has("visible_target"):
