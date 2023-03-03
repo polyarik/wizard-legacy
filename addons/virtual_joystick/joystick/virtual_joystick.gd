@@ -181,3 +181,6 @@ func _reset():
 			Input.action_release(action_down)
 		if Input.is_action_pressed(action_up):
 			Input.action_release(action_up)
+
+func _exit_tree() -> void:
+	_reset()
