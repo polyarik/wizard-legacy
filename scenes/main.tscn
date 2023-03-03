@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqmy3f0x0uhar"]
+[gd_scene load_steps=3 format=3 uid="uid://cqmy3f0x0uhar"]
 
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_fen7v"]
 [ext_resource type="Texture2D" uid="uid://dqurvgjd6a6ox" path="res://icon.png" id="1_pkn04"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_fen7v")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

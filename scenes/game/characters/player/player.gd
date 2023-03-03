@@ -19,6 +19,9 @@ var in_casting_animation := false
 var is_hurt := false
 
 
+func _ready() -> void:
+	print("player health: ", health)
+
 # TODO - refactor
 func learn_spells(new_spells: Array[Spell]) -> void:
 	for spell in new_spells:
@@ -134,7 +137,7 @@ func apply_damage(_damage: float) -> void:
 	is_hurt = true
 	in_casting_animation = false
 
-	print(health)
+	print("player health: ", health)
 
 	# TODO - visual effect
 

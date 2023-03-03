@@ -3,11 +3,15 @@ extends Node
 ## 
 
 var spell_book: SpellBook
-var location: Node2D
+
+var current_scene: Node
+
+var location_node: Node2D
 var characters_node: Node2D
 var projectiles_node: Node2D
 var player: PlayerCharacter
 
+# TEMP ---
 #var enemies: Array[Enemy] # TODO
 var enemies := [
 	preload("res://scenes/game/characters/slime/slime.tscn"),
@@ -24,21 +28,43 @@ var enemy_spawn_cooldown := 4.0
 func _ready() -> void:
 	spell_book = get_node("/root/SpellBook")
 
-	location = get_tree().get_first_node_in_group("Location")
+	var root = get_tree().root
+	current_scene = root.get_child(root.get_child_count() - 1)
 
-	characters_node = location.get_node_or_null("Characters")
+# TEST
+func goto_scene(path: String) -> void:
+	call_deferred("_deferred_goto_scene", path)
+
+func _deferred_goto_scene(path) -> void:
+	current_scene.free()
+
+	var new_scene = load(path)
+	current_scene = new_scene.instantiate()
+
+	get_tree().root.add_child(current_scene)
+	get_tree().current_scene = current_scene
+
+	# TEMP
+	if path != "res://scenes/main.tscn":
+		load_location()
+	# TODO - location or menu
+
+func load_location() -> void:
+	location_node = get_tree().get_first_node_in_group("Location")
+
+	characters_node = location_node.get_node_or_null("Characters")
 	if characters_node == null:
 		characters_node = Node2D.new()
 		characters_node.name = "Characters"
-		location.add_child(characters_node)
+		location_node.add_child(characters_node)
 
-	projectiles_node = location.get_node_or_null("Projectiles")
+	projectiles_node = location_node.get_node_or_null("Projectiles")
 	if projectiles_node == null:
 		projectiles_node = Node2D.new()
 		projectiles_node.name = "Projectiles"
-		location.add_child(projectiles_node)
+		location_node.add_child(projectiles_node)
 
-	player = location.get_tree().get_first_node_in_group("Player")
+	player = location_node.get_tree().get_first_node_in_group("Player")
 
 	# TODO - only pass the picked spells to the player
 	var spells: Array[Spell] = [
@@ -73,4 +99,7 @@ func add_projectile(spell_inst: Node) -> void:
 	projectiles_node.add_child(spell_inst)
 
 func on_player_death() -> void:
-	print("F ;c")
+	# TEMP
+	goto_scene("res://scenes/main.tscn")
+
+	# TODO - show death screen
