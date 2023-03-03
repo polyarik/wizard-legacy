@@ -10,7 +10,7 @@ var direction := Vector2.ZERO
 var damage := 5.0
 
 
-func _ready():
+func _ready() -> void:
 	hanlde_lifetime()
 
 func hanlde_lifetime() -> void:
@@ -37,6 +37,6 @@ func _on_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("Static"):
 		queue_free()
 
-func _exit_tree():
+func _exit_tree() -> void:
 	# TODO - play "destroy" animation
 	pass

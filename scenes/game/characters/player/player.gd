@@ -14,7 +14,7 @@ var spells_target: Array[Node2D] # TEMP
 @onready var animation_tree := $PlayerAnimationTree
 @onready var animation_state_machine = animation_tree.get("parameters/playback")
 
-# TEMP
+# TODO - implement something like "states"
 var in_casting_animation := false
 var is_hurt := false
 
@@ -92,8 +92,12 @@ func move() -> void:
 	var moveX := movement.x
 	var moveY := movement.y
 
-	velocity.x = (moveX * speed) if moveX else move_toward(velocity.x, 0, speed)
-	velocity.y = (moveY * speed) if moveY else move_toward(velocity.y, 0, speed)
+	if is_hurt: # TEMP - unwanted behavior: animation dependable
+		velocity.x = move_toward(velocity.x, moveX * speed, speed)
+		velocity.y = move_toward(velocity.y, moveY * speed, speed)
+	else:
+		velocity.x = (moveX * speed) if moveX else move_toward(velocity.x, 0, speed)
+		velocity.y = (moveY * speed) if moveY else move_toward(velocity.y, 0, speed)
 
 	move_and_slide()
 
@@ -134,6 +138,9 @@ func apply_damage(_damage: float) -> void:
 
 	if health == 0.0:
 		GameManager.on_player_death()
+
+func push(force: Vector2) -> void:
+	velocity += force
 
 # TODO - rewrite
 func pick_animation_state() -> void:

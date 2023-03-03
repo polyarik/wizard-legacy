@@ -8,10 +8,11 @@ var health := max_health
 var speed := 20.0
 
 var damage := 10.0
+var push_force := 500.0 # TEMP
 var target: PlayerCharacter
 
 
-func _physics_process(_delta):
+func _physics_process(_delta) -> void:
 	# TODO - sense the player only if they're near, otherwise move randomly
 	if (target == null):
 		target = get_tree().get_first_node_in_group("Player")
@@ -27,9 +28,10 @@ func apply_damage(_damage: float) -> void:
 		queue_free()
 
 # TEMP
-func _on_hitbox_body_entered(body: Node2D):
+func _on_hitbox_body_entered(body: Node2D) -> void:
 	#if body.is_in_group("Player"):
 	if body == target:
 		body.apply_damage(damage)
 
-	print(body)
+		var push = position.direction_to(body.global_position) * push_force
+		body.push(push)
