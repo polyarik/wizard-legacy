@@ -136,4 +136,3 @@ func _on_player_animation_tree_animation_finished(anim_name: StringName):
 	match anim_name:
 		"attack":
 			in_casting_animation = false
-
