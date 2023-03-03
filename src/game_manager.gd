@@ -71,3 +71,6 @@ func spawn_enemy(enemy: PackedScene) -> void:
 
 func add_projectile(spell_inst: Node) -> void:
 	projectiles_node.add_child(spell_inst)
+
+func on_player_death() -> void:
+	print("F ;c")

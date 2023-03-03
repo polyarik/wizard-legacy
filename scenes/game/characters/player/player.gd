@@ -16,6 +16,7 @@ var spells_target: Array[Node2D] # TEMP
 
 # TEMP
 var in_casting_animation := false
+var is_hurt := false
 
 
 # TODO - refactor
@@ -123,8 +124,22 @@ func cast_spell(spell: Spell, target_pos: Vector2) -> void:
 
 	GameManager.add_projectile(spell_inst)
 
+func apply_damage(_damage: float) -> void:
+	health = clamp(health - _damage, 0.0, max_health)
+	is_hurt = true
+
+	print(health)
+
+	# TODO - visual effect
+
+	if health == 0.0:
+		GameManager.on_player_death()
+
+# TODO - rewrite
 func pick_animation_state() -> void:
-	if (velocity != Vector2.ZERO):
+	if is_hurt:
+		animation_state_machine.travel("hurt")
+	elif (velocity != Vector2.ZERO):
 		animation_state_machine.travel("walk")
 		in_casting_animation = false
 	elif (in_casting_animation):
@@ -136,3 +151,5 @@ func _on_player_animation_tree_animation_finished(anim_name: StringName):
 	match anim_name:
 		"attack":
 			in_casting_animation = false
+		"hurt":
+			is_hurt = false

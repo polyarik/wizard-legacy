@@ -6,6 +6,8 @@ extends CharacterBody2D
 var max_health := 20.0
 var health := max_health
 var speed := 20.0
+
+var damage := 10.0
 var target: PlayerCharacter
 
 
@@ -18,8 +20,16 @@ func _physics_process(_delta):
 		velocity = position.direction_to(target.position) * speed
 		move_and_slide()
 
-func apply_damage(damage: float) -> void:
-	health = clamp(health - damage, 0.0, max_health)
+func apply_damage(_damage: float) -> void:
+	health = clamp(health - _damage, 0.0, max_health)
 
 	if health == 0.0:
 		queue_free()
+
+# TEMP
+func _on_hitbox_body_entered(body: Node2D):
+	#if body.is_in_group("Player"):
+	if body == target:
+		body.apply_damage(damage)
+
+	print(body)
