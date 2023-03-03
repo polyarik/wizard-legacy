@@ -78,3 +78,4 @@ position = Vector2(72, 128)
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="VirtualJoystick" parent="HUD" instance=ExtResource("2_jkuvy")]
+visibility_mode = 2

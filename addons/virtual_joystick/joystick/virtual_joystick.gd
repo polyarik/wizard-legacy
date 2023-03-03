@@ -25,7 +25,8 @@ enum JoystickMode {
 
 enum VisibilityMode {
 	ALWAYS, ## Always visible. Default.
-	TOUCHSCREEN_ONLY ## Visible on touch screens only.
+	TOUCHSCREEN_ONLY, ## Visible on touch screens only.
+	ON_TOUCH ## Visible on touch only.
 }
 
 ## Whether or not the joystick is visible if there is no touchscreen
@@ -82,10 +83,14 @@ var _touch_index : int = -1
 func _ready() -> void:
 	if not DisplayServer.is_touchscreen_available() and visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY:
 		hide()
+	elif visibility_mode == VisibilityMode.ON_TOUCH:
+		hide()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
+			show()
+
 			if _is_point_inside_joystick_area(event.position) and _touch_index == -1:
 				if joystick_mode == JoystickMode.DYNAMIC or (joystick_mode == JoystickMode.FIXED and _is_point_inside_base(event.position)):
 					if joystick_mode == JoystickMode.DYNAMIC:
@@ -163,6 +168,10 @@ func _reset():
 	_tip.modulate = _default_color
 	_base.position = _base_default_position
 	_tip.position = _tip_default_position
+
+	if visibility_mode == VisibilityMode.ON_TOUCH:
+		hide()
+
 	if use_input_actions:
 		if Input.is_action_pressed(action_left):
 			Input.action_release(action_left)
