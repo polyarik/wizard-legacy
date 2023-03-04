@@ -3,24 +3,20 @@ extends Node
 ## Collection of all the spells, their levels and upgrades
 
 var _spell_collection := {
-	# TODO - also pass levels and their specific upgrades
-	magic_missile = [
-		preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"),
-		{max_distance = 128}, #visible_target = true}, # TODO
-		1.0
-	],
+	magic_missile = {
+		scene = preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"),
+		cooldown = 1.0,
+		cast_conditions = {max_distance = 128}, #visible_target = true}, # TODO
+		#cooldown_coeff
+		#levels / upgrades
+	},
 }
 
 
 func get_spell(spell_name: StringName) -> Spell:
-	if _spell_collection.has(spell_name):
-		#return Spell.new(_spell_collection[spell_name])
+	var spell_data: Dictionary = _spell_collection.get(spell_name, {})
 
-		# TEMP
-		return Spell.new(
-			preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"),
-			{max_distance = 128}, #visible_target = true}, # TODO
-			1.0
-		)
+	if spell_data:
+		return Spell.new(spell_data.scene, spell_data.cooldown, spell_data.cast_conditions)
 	
 	return null

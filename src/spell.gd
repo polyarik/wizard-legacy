@@ -13,7 +13,7 @@ var on_cooldown := false
 # TODO - define target_type (group; nearest, strongest...)
 
 
-func _init(_scene: PackedScene, _cast_conditions:={}, _cooldown:=1.0) -> void:
+func _init(_scene: PackedScene, _cooldown:=1.0, _cast_conditions:={}) -> void:
 	scene = _scene
 	cooldown = _cooldown
 
