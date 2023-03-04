@@ -143,7 +143,7 @@ func _update_joystick(touch_position: Vector2) -> void:
 	if use_input_actions:
 		_update_input_actions()
 
-func _update_input_actions():
+func _update_input_actions() -> void:
 	if output.x < 0:
 		Input.action_press(action_left, -output.x)
 	elif Input.is_action_pressed(action_left):
@@ -161,7 +161,7 @@ func _update_input_actions():
 	elif Input.is_action_pressed(action_down):
 		Input.action_release(action_down)
 
-func _reset():
+func _reset() -> void:
 	pressed = false
 	output = Vector2.ZERO
 	_touch_index = -1

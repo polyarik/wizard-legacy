@@ -6,17 +6,18 @@ extends CharacterBody2D
 @export var max_health := 100.0
 @export var health := 100.0
 @export var speed := 64.0
+
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
 var spells_target: Array[Node2D] # TEMP
 
-@onready var casting_point := $CastingPoint
-@onready var animation_tree := $PlayerAnimationTree
-@onready var animation_state_machine = animation_tree.get("parameters/playback")
-
 # TODO - implement something like "states"
 var in_casting_animation := false
 var is_hurt := false
+
+@onready var casting_point := $CastingPoint
+@onready var animation_tree := $PlayerAnimationTree
+@onready var animation_state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 
 func _ready() -> void:
@@ -33,7 +34,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 
 			spell_timer.wait_time = spell.cooldown
 			spell_timer.one_shot = true
-			spell_timer.timeout.connect(func(): spells[-1].on_cooldown = false) # TEST - needs testing
+			spell_timer.timeout.connect(func() -> void: spells[-1].on_cooldown = false) # TEST - needs testing
 
 			spells_timer.append(spell_timer)
 
@@ -45,19 +46,19 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				area.collision_mask = 4
 				add_child(area)
 
-				var circle_shape = CircleShape2D.new()
+				var circle_shape := CircleShape2D.new()
 				circle_shape.radius = spell.cast_conditions["max_distance"]
 
-				var collision_shape = CollisionShape2D.new()
+				var collision_shape := CollisionShape2D.new()
 				collision_shape.shape = circle_shape
 				area.add_child(collision_shape)
 
 				# BUG - doesn't handle enemy movement inside the area!
-				area.body_entered.connect(func(body: Node2D):
+				area.body_entered.connect(func(body: Node2D) -> void:
 					if body.is_in_group("Enemy"):
 						if spells_target[-1]:
-							var curr_dist = global_position.distance_to(spells_target[-1].global_position)
-							var new_dist = global_position.distance_to(body.global_position)
+							var curr_dist := global_position.distance_to(spells_target[-1].global_position)
+							var new_dist := global_position.distance_to(body.global_position)
 
 							if new_dist < curr_dist:
 								spells_target[-1] = body
@@ -68,7 +69,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				)
 
 				# TODO - rewrite!
-				area.body_exited.connect(func(body: Node2D):
+				area.body_exited.connect(func(body: Node2D) -> void:
 					if body == spells_target[-1]:
 						spells_target[-1] = null
 						spells[-1].conditions_met["max_distance"] = false
@@ -111,7 +112,7 @@ func process_spell_casting() -> void:
 	# TODO - pick a spell that can be casted
 
 	# TEMP - testing
-	var i = 0
+	var i := 0
 
 	if spells[i].can_be_casted():
 		spell = spells[i]

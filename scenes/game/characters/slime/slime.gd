@@ -33,5 +33,5 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body == target:
 		body.apply_damage(damage)
 
-		var push = position.direction_to(body.global_position) * push_force
+		var push := position.direction_to(body.global_position) * push_force
 		body.push(push)

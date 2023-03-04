@@ -19,7 +19,7 @@ func hanlde_lifetime() -> void:
 
 	lifetime_timer.wait_time = lifetime
 	lifetime_timer.one_shot = true
-	lifetime_timer.timeout.connect(func(): queue_free())
+	lifetime_timer.timeout.connect(func() -> void: queue_free())
 
 	lifetime_timer.start()
 

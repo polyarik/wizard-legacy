@@ -28,7 +28,7 @@ var enemy_spawn_cooldown := 4.0
 func _ready() -> void:
 	spell_book = get_node("/root/SpellBook")
 
-	var root = get_tree().root
+	var root := get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
 
 # TEST
@@ -38,7 +38,7 @@ func goto_scene(path: String) -> void:
 func _deferred_goto_scene(path) -> void:
 	current_scene.free()
 
-	var new_scene = load(path)
+	var new_scene := load(path)
 	current_scene = new_scene.instantiate()
 
 	get_tree().root.add_child(current_scene)
@@ -86,11 +86,11 @@ func start_spawning_enemies() -> void:
 	enemy_spawn_timer.start()
 
 func spawn_enemy(enemy: PackedScene) -> void:
-	var rand_radius = randf_range(enemy_min_spawn_distance, enemy_max_spawn_distance)
-	var rand_angle = randf_range(0, TAU)
+	var rand_radius := randf_range(enemy_min_spawn_distance, enemy_max_spawn_distance)
+	var rand_angle := randf_range(0, TAU)
 	var spawn_position := Vector2(cos(rand_angle)*rand_radius, sin(rand_angle)*rand_radius)
 
-	var enemy_inst = enemy.instantiate()
+	var enemy_inst := enemy.instantiate()
 	enemy_inst.global_position = player.global_position + spawn_position
 
 	characters_node.add_child(enemy_inst)
