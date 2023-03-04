@@ -68,8 +68,8 @@ func get_output() -> Vector2:
 
 var _touch_index : int = -1
 
-@onready var _base := $Base
-@onready var _tip := $Base/Tip
+@onready var _base := $Base as TextureRect
+@onready var _tip := $Base/Tip as TextureRect
 
 @onready var _base_radius = _base.size * _base.get_global_transform_with_canvas().get_scale() / 2
 

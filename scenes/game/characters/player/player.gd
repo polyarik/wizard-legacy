@@ -15,9 +15,9 @@ var spells_target: Array[Node2D] # TEMP
 var in_casting_animation := false
 var is_hurt := false
 
-@onready var casting_point := $CastingPoint
-@onready var animation_tree := $PlayerAnimationTree
-@onready var animation_state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+@onready var casting_point := $CastingPoint as Marker2D
+@onready var animation_tree := $PlayerAnimationTree as AnimationTree
+@onready var animation_state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
 
 
 func _ready() -> void:

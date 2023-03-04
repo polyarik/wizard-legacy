@@ -121,7 +121,7 @@ states/idle/position = Vector2(254, 85)
 states/walk/node = SubResource("AnimationNodeAnimation_08j1j")
 states/walk/position = Vector2(679, 85)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vht6e"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_3dkot"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_t4i4r"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_ceqf3"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_wyst6"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_omn4w"), "walk", "hurt", SubResource("AnimationNodeStateMachineTransition_tww4f"), "attack", "hurt", SubResource("AnimationNodeStateMachineTransition_wg2b3"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_6bnup"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_e45ta")]
-graph_offset = Vector2(15, -80)
+graph_offset = Vector2(-91, -115)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_0x1nf"]
 
