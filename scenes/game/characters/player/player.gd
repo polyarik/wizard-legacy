@@ -143,7 +143,7 @@ func apply_damage(_damage: float) -> void:
 	# TODO - visual effect
 
 	if health == 0.0:
-		GameManager.on_player_death()
+		GameManager.on_entity_death(self)
 
 func push(force: Vector2) -> void:
 	velocity += force
