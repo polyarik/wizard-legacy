@@ -11,6 +11,8 @@ var damage := 10.0
 var push_force := 500.0 # TEMP
 var target: PlayerCharacter
 
+var energy_reward := 10.0
+
 
 func _physics_process(_delta) -> void:
 	# TODO - sense the player only if they're near, otherwise move randomly
@@ -25,7 +27,7 @@ func apply_damage(_damage: float) -> void:
 	health = clamp(health - _damage, 0.0, max_health)
 
 	if health == 0.0:
-		queue_free()
+		GameManager.on_entity_death(self)
 
 # TEMP
 func _on_hitbox_body_entered(body: Node2D) -> void:

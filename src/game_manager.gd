@@ -24,6 +24,8 @@ var enemy_despawn_distance := 1024
 var enemy_spawn_timer: Timer
 var enemy_spawn_cooldown := 4.0
 
+var energy := 0.0 # TEMP
+
 
 func _ready() -> void:
 	spell_book = get_node("/root/SpellBook")
@@ -65,6 +67,7 @@ func load_location() -> void:
 		location_node.add_child(projectiles_node)
 
 	player = location_node.get_tree().get_first_node_in_group("Player")
+	energy = 0.0 # TEMP
 
 	# TODO - only pass the picked spells to the player
 	var spells: Array[Spell] = [
@@ -97,6 +100,14 @@ func spawn_enemy(enemy: PackedScene) -> void:
 
 func add_projectile(spell_inst: Node) -> void:
 	projectiles_node.add_child(spell_inst)
+
+func on_entity_death(entity: CharacterBody2D) -> void:
+	if entity.is_in_group("Player"):
+		on_player_death()
+	elif entity.is_in_group("Enemy"):
+		energy += entity.energy_reward # TEMP
+		print("energy: ", energy)
+		entity.queue_free()
 
 func on_player_death() -> void:
 	# TEMP
