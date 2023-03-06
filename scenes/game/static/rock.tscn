@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7wy6qbyiwlbl"]
+[gd_scene load_steps=2 format=3 uid="uid://bsxco5w7cxvb5"]
 
-[ext_resource type="Texture2D" uid="uid://e387x0doucif" path="res://assets/sprites/static/rock.png" id="1_kvkm5"]
+[ext_resource type="Texture2D" uid="uid://e387x0doucif" path="res://scenes/game/static/rock.png" id="1_nix4c"]
 
 [node name="Rock" type="StaticBody2D" groups=["Static"]]
 collision_mask = 0
@@ -13,4 +13,4 @@ polygon = PackedVector2Array(6, 0.999978, 5.99998, -6.00002, 0.999964, -10, -4.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(1.07288e-05, 0)
-texture = ExtResource("1_kvkm5")
+texture = ExtResource("1_nix4c")
