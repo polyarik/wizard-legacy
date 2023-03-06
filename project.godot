@@ -20,8 +20,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SpellBook="*res://src/spell_book.gd"
-GameManager="*res://src/game_manager.gd"
+SpellBook="*res://common/autoloads/spell_book.gd"
+GameManager="*res://common/autoloads/game_manager.gd"
 
 [display]
 
