@@ -30,6 +30,7 @@ window/size/viewport_height=256
 window/size/window_width_override=576
 window/size/window_height_override=1024
 window/handheld/orientation=1
+window/vsync/vsync_mode=0
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/emulate_touch_from_mouse=true
@@ -101,7 +102,8 @@ pointing/emulate_mouse_from_touch=false
 
 [rendering]
 
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 textures/lossless_compression/force_png=true
 textures/default_filters/use_nearest_mipmap_filter=true
