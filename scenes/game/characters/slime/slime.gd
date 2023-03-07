@@ -7,7 +7,7 @@ var max_health := 20.0
 var health := max_health
 var speed := 20.0
 
-var damage := 10.0
+var contact_damage := 10.0
 var push_force := 500.0 # TEMP
 var target: PlayerCharacter
 
@@ -28,12 +28,3 @@ func apply_damage(_damage: float) -> void:
 
 	if health == 0.0:
 		GameManager.on_entity_death(self)
-
-# TEMP
-func _on_hitbox_body_entered(body: Node2D) -> void:
-	#if body.is_in_group("Player"):
-	if body == target:
-		body.apply_damage(damage)
-
-		var push := position.direction_to(body.global_position) * push_force
-		body.push(push)

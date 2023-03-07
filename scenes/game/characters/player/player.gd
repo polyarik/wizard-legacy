@@ -132,6 +132,15 @@ func cast_spell(spell: Spell, target_pos: Vector2) -> void:
 
 	GameManager.add_projectile(spell_inst)
 
+# TEMP
+func _on_hirtbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Enemy"):
+		#if body.target == self:
+		apply_damage(body.contact_damage)
+
+		var push_force: Vector2 = body.position.direction_to(global_position) * body.push_force
+		push(push_force)
+	
 func apply_damage(_damage: float) -> void:
 	health = clamp(health - _damage, 0.0, max_health)
 	# TEMP
