@@ -5,7 +5,7 @@ extends Area2D
 
 var spawned_from: Node = null
 var lifetime := 2.0 # seconds
-var speed := 1.2
+var speed := 64 # px/sec
 var direction := Vector2.ZERO
 var damage := 5.0
 
@@ -23,8 +23,8 @@ func hanlde_lifetime() -> void:
 
 	lifetime_timer.start()
 
-func _physics_process(_delta: float) -> void:
-	position += direction * speed
+func _physics_process(delta: float) -> void:
+	position += direction * speed * delta
 
 func _on_body_entered(body: Node2D) -> void:
 	if body == spawned_from:
