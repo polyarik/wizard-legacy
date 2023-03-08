@@ -122,22 +122,18 @@ func process_spell_casting() -> void:
 	if is_casting:
 		return
 
-	var spell: Spell = null
-	# TODO - implement spells priority
-	# TODO - pick a spell that can be casted
-
-	# TEMP - testing
 	var i := 0
 
-	if spells[i].can_be_casted():
-		spell = spells[i]
-
-	if spell:
-		is_casting = true
-		in_casting_animation = true
-
-		spells_cast_timer[i].start() # cast spell after spell.cast_time
-		spells_timer[i].start()
+	for spell in spells:
+		if not spell.can_be_casted():
+			i += 1
+		else:
+			is_casting = true
+			in_casting_animation = true
+	
+			spells_cast_timer[i].start() # cast spell after spell.cast_time
+			spells_timer[i].start()
+			return
 
 # TODO - implement different spell types behaviour
 func cast_spell(spell: Spell, target_pos: Vector2) -> void:
