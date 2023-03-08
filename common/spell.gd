@@ -6,6 +6,7 @@ extends Area2D
 var scene: PackedScene
 var cast_conditions: Dictionary
 var conditions_met: Dictionary
+var cast_time: float
 var cooldown: float
 var on_cooldown := false
 
@@ -13,9 +14,10 @@ var on_cooldown := false
 # TODO - define target_type (group; nearest, strongest...)
 
 
-func _init(_scene: PackedScene, _cooldown:=1.0, _cast_conditions:={}) -> void:
+func _init(_scene: PackedScene, _cooldown:=1.0, _cast_time:=0.5, _cast_conditions:={}) -> void:
 	scene = _scene
 	cooldown = _cooldown
+	cast_time = _cast_time
 
 	for condition in _cast_conditions:
 		var value = _cast_conditions[condition]

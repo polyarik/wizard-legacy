@@ -9,10 +9,12 @@ extends CharacterBody2D
 
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
+var spells_cast_timer: Array[Timer] # TEMP
 var spells_target: Array[Node2D] # TEMP
 var collision_check_delay := 0.5
 
 # TODO - implement something like "states"
+var is_casting := false
 var in_casting_animation := false
 var is_hurt := false
 
@@ -39,6 +41,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 
 			spells_timer.append(spell_timer)
 
+			# TODO? - use match
 			if spell.cast_conditions.has("max_distance"):
 				spells_target.append(null)
 
@@ -54,7 +57,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				collision_shape.shape = circle_shape
 				area.add_child(collision_shape)
 
-				#if spell.target == "nearest":
+				#if spell.target == "closest":
 				var enemy_check_timer = Timer.new()
 				enemy_check_timer.name = "EnemyCheckTimer" + str(len(spells))
 				add_child(enemy_check_timer)
@@ -82,6 +85,20 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 					# TODO
 					print("-_-")
 
+			# TODO - wrap in a function
+			var spell_cast_timer := Timer.new()
+			add_child(spell_cast_timer)
+
+			spell_cast_timer.wait_time = spell.cast_time
+			spell_cast_timer.one_shot = true
+			spell_cast_timer.timeout.connect(func() -> void:
+				if spells_target[-1] and is_instance_valid(spells_target[-1]): # TEMP
+					is_casting = false
+					cast_spell(spells[-1], spells_target[-1].global_position)
+			)
+
+			spells_cast_timer.append(spell_cast_timer)
+
 func _physics_process(_delta: float) -> void:
 	move()
 	process_spell_casting()
@@ -102,8 +119,10 @@ func move() -> void:
 	move_and_slide()
 
 func process_spell_casting() -> void:
+	if is_casting:
+		return
+
 	var spell: Spell = null
-	var target_pos: Vector2 # TEMP
 	# TODO - implement spells priority
 	# TODO - pick a spell that can be casted
 
@@ -112,12 +131,13 @@ func process_spell_casting() -> void:
 
 	if spells[i].can_be_casted():
 		spell = spells[i]
-		target_pos = spells_target[i].global_position
 
-	if (spell):
-		cast_spell(spell, target_pos) # TEMP
-		spells_timer[i].start()
+	if spell:
+		is_casting = true
 		in_casting_animation = true
+
+		spells_cast_timer[i].start() # cast spell after spell.cast_time
+		spells_timer[i].start()
 
 # TODO - implement different spell types behaviour
 func cast_spell(spell: Spell, target_pos: Vector2) -> void:
