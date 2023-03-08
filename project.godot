@@ -23,6 +23,10 @@ config/icon="res://icon.svg"
 SpellBook="*res://common/autoloads/spell_book.gd"
 GameManager="*res://common/autoloads/game_manager.gd"
 
+[debug]
+
+shapes/collision/shape_color=Color(1, 1, 1, 0.196078)
+
 [display]
 
 window/size/viewport_width=144

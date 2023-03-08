@@ -131,15 +131,15 @@ safe_margin = 0.2
 script = ExtResource("1_dxvgr")
 
 [node name="PlayerShape" type="CollisionPolygon2D" parent="."]
-self_modulate = Color(0, 0.498039, 1, 1)
+self_modulate = Color(0, 0, 0, 1)
 position = Vector2(0, -5)
-polygon = PackedVector2Array(-4, 4, -2, 7, 2, 7, 4, 4, 4, -3, 2, -6, -2, -6, -4, -3)
+polygon = PackedVector2Array(-5, 4, -2, 7, 2, 7, 5, 4, 5, -3, 2, -6, -2, -6, -5, -3)
 
 [node name="Hirtbox" type="Area2D" parent="."]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(0, -2)
 collision_layer = 2
-collision_mask = 6
+collision_mask = 4
 
 [node name="HirtboxShape" type="CollisionPolygon2D" parent="Hirtbox"]
 position = Vector2(0, 2)
