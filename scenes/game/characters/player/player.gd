@@ -92,8 +92,9 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			spell_cast_timer.wait_time = spell.cast_time
 			spell_cast_timer.one_shot = true
 			spell_cast_timer.timeout.connect(func() -> void:
+				is_casting = false
+
 				if spells_target[-1] and is_instance_valid(spells_target[-1]): # TEMP
-					is_casting = false
 					cast_spell(spells[-1], spells_target[-1].global_position)
 			)
 
