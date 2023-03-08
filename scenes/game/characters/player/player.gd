@@ -92,6 +92,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			spell_cast_timer.wait_time = spell.cast_time
 			spell_cast_timer.one_shot = true
 			spell_cast_timer.timeout.connect(func() -> void:
+				spells_timer[-1].start() # start spell cooldown
 				is_casting = false
 
 				if spells_target[-1] and is_instance_valid(spells_target[-1]): # TEMP
@@ -133,7 +134,6 @@ func process_spell_casting() -> void:
 			in_casting_animation = true
 	
 			spells_cast_timer[i].start() # cast spell after spell.cast_time
-			spells_timer[i].start()
 			return
 
 # TODO - implement different spell types behaviour
