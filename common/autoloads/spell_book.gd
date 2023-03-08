@@ -7,6 +7,7 @@ var _spell_collection := {
 		scene = preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"),
 		cooldown = 1.0,
 		cast_conditions = {max_distance = 128}, #visible_target = true}, # TODO
+		#target = nearest
 		#cooldown_coeff
 		#levels / upgrades
 	},

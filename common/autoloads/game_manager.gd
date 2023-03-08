@@ -85,7 +85,7 @@ func start_spawning_enemies() -> void:
 	add_child(enemy_spawn_timer)
 
 	enemy_spawn_timer.wait_time = enemy_spawn_cooldown
-	enemy_spawn_timer.timeout.connect(func(): spawn_enemy(enemies[0])) # TEMP
+	enemy_spawn_timer.timeout.connect(func() -> void: spawn_enemy(enemies[0])) # TEMP
 	enemy_spawn_timer.start()
 
 func spawn_enemy(enemy: PackedScene) -> void:

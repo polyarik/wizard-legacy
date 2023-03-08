@@ -10,6 +10,7 @@ extends CharacterBody2D
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
 var spells_target: Array[Node2D] # TEMP
+var collision_check_delay := 0.5
 
 # TODO - implement something like "states"
 var in_casting_animation := false
@@ -53,34 +54,29 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				collision_shape.shape = circle_shape
 				area.add_child(collision_shape)
 
-				# BUG - doesn't handle enemy movement inside the area!
-				area.body_entered.connect(func(body: Node2D) -> void:
-					if body.is_in_group("Enemy"):
-						if spells_target[-1]:
-							var curr_dist := global_position.distance_to(spells_target[-1].global_position)
+				#if spell.target == "nearest":
+				var enemy_check_timer = Timer.new()
+				enemy_check_timer.name = "EnemyCheckTimer" + str(len(spells))
+				add_child(enemy_check_timer)
+
+				enemy_check_timer.timeout.connect(func() -> void:
+					var closest_enemy: CharacterBody2D = null
+					var min_dist: float = spell.cast_conditions["max_distance"]
+
+					for body in area.get_overlapping_bodies():
+						if body.is_in_group("Enemy"):
 							var new_dist := global_position.distance_to(body.global_position)
 
-							if new_dist < curr_dist:
-								spells_target[-1] = body
-						else:
-							spells_target[-1] = body
+							if new_dist <= min_dist:
+								min_dist = new_dist
+								closest_enemy = body
 
-						spells[-1].conditions_met["max_distance"] = true
+					spells_target[-1] = closest_enemy
+					spells[-1].conditions_met["max_distance"] = true if closest_enemy else false
 				)
 
-				# TODO - rewrite!
-				area.body_exited.connect(func(body: Node2D) -> void:
-					if body == spells_target[-1]:
-						spells_target[-1] = null
-						spells[-1].conditions_met["max_distance"] = false
-
-						var remaining_bodies := area.get_overlapping_bodies()
-
-						for remaining_body in remaining_bodies:
-							if remaining_body != body and remaining_body.is_in_group("Enemy"):
-								spells_target[-1] = remaining_body
-								spells[-1].conditions_met["max_distance"] = true
-				)
+				enemy_check_timer.wait_time = collision_check_delay
+				enemy_check_timer.start()
 
 				if spell.cast_conditions.has("visible_target"):
 					# TODO
