@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 
 SpellBook="*res://common/autoloads/spell_book.gd"
 GameManager="*res://common/autoloads/game_manager.gd"
+Globals="*res://common/autoloads/globals.gd"
 
 [debug]
 

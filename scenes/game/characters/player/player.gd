@@ -32,13 +32,14 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			spells.append(spell)
 			var spell_num := len(spells) - 1
 
-			var spell_timer := Timer.new()
+			var spell_timer := Globals.create_timer(
+				func() -> void: spells[spell_num].on_cooldown = false,
+				spell.cooldown,
+				true,
+				"SpellTimer" + str(spell_num)
+			)
+
 			add_child(spell_timer)
-
-			spell_timer.wait_time = spell.cooldown
-			spell_timer.one_shot = true
-			spell_timer.timeout.connect(func() -> void: spells[spell_num].on_cooldown = false)
-
 			spells_timer.append(spell_timer)
 
 			# TODO? - use match
@@ -85,20 +86,19 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 					# TODO
 					print("-_-")
 
-			# TODO - wrap in a function
-			var spell_cast_timer := Timer.new()
-			add_child(spell_cast_timer)
-
-			spell_cast_timer.wait_time = spell.cast_time
-			spell_cast_timer.one_shot = true
-			spell_cast_timer.timeout.connect(func() -> void:
-				spells_timer[spell_num].start() # start spell cooldown
-				is_casting = false
-
-				if spells_target[spell_num] and is_instance_valid(spells_target[spell_num]): # TEMP
-					cast_spell(spells[spell_num], spells_target[spell_num].global_position)
+			var spell_cast_timer := Globals.create_timer(
+				func() -> void:
+					spells_timer[spell_num].start() # start spell cooldown
+					is_casting = false
+	
+					if spells_target[spell_num] and is_instance_valid(spells_target[spell_num]): # TEMP
+						cast_spell(spells[spell_num], spells_target[spell_num].global_position),
+				spell.cast_time,
+				true,
+				"SpellCastTimer" + str(spell_num)
 			)
 
+			add_child(spell_cast_timer)
 			spells_cast_timer.append(spell_cast_timer)
 
 func _physics_process(_delta: float) -> void:

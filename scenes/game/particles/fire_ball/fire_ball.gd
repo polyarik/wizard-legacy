@@ -15,13 +15,9 @@ func _ready() -> void:
 	hanlde_lifetime()
 
 func hanlde_lifetime() -> void:
-	var lifetime_timer := Timer.new()
+	var lifetime_timer := Globals.create_timer(queue_free, lifetime)
+
 	add_child(lifetime_timer)
-
-	lifetime_timer.wait_time = lifetime
-	lifetime_timer.one_shot = true
-	lifetime_timer.timeout.connect(func() -> void: queue_free())
-
 	lifetime_timer.start()
 
 func _physics_process(delta: float) -> void:

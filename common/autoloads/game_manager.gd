@@ -2,7 +2,6 @@ extends Node
 
 ## 
 
-var spell_book: SpellBook
 
 var current_scene: Node
 
@@ -28,8 +27,6 @@ var energy := 0.0 # TEMP
 
 
 func _ready() -> void:
-	spell_book = get_node("/root/SpellBook")
-
 	var root := get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
 
@@ -71,8 +68,8 @@ func load_location() -> void:
 
 	# TODO - only pass the picked spells to the player
 	var spells: Array[Spell] = [
-		spell_book.get_spell("fire_ball"),
-		spell_book.get_spell("magic_missile")
+		SpellBook.get_spell("fire_ball"),
+		SpellBook.get_spell("magic_missile")
 	]
 
 	player.learn_spells(spells)
@@ -80,13 +77,15 @@ func load_location() -> void:
 	start_spawning_enemies()
 
 func start_spawning_enemies() -> void:
-	# TODO - pass different spawn conditions
-	enemy_spawn_timer = Timer.new()
-	enemy_spawn_timer.name = "EnemySpawnTimer"
-	add_child(enemy_spawn_timer)
+	# TODO - implement different spawn conditions
+	enemy_spawn_timer = Globals.create_timer(
+		func() -> void: spawn_enemy(enemies[0]), # TEMP
+		enemy_spawn_cooldown,
+		false,
+		"EnemySpawnTimer"
+	)
 
-	enemy_spawn_timer.wait_time = enemy_spawn_cooldown
-	enemy_spawn_timer.timeout.connect(func() -> void: spawn_enemy(enemies[0])) # TEMP
+	add_child(enemy_spawn_timer)
 	enemy_spawn_timer.start()
 
 func spawn_enemy(enemy: PackedScene) -> void:
