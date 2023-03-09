@@ -3,8 +3,6 @@ extends Node
 ## 
 
 
-var current_scene: Node
-
 var location_node: Node2D
 var characters_node: Node2D
 var projectiles_node: Node2D
@@ -25,28 +23,6 @@ var enemy_spawn_cooldown := 2.0
 
 var energy := 0.0 # TEMP
 
-
-func _ready() -> void:
-	var root := get_tree().root
-	current_scene = root.get_child(root.get_child_count() - 1)
-
-# TEST
-func goto_scene(path: String) -> void:
-	call_deferred("_deferred_goto_scene", path)
-
-func _deferred_goto_scene(path) -> void:
-	current_scene.free()
-
-	var new_scene := load(path)
-	current_scene = new_scene.instantiate()
-
-	get_tree().root.add_child(current_scene)
-	get_tree().current_scene = current_scene
-
-	# TEMP
-	if path != "res://scenes/main.tscn":
-		load_location()
-	# TODO - location or menu
 
 func load_location() -> void:
 	location_node = get_tree().get_first_node_in_group("Location")
@@ -109,7 +85,6 @@ func on_entity_death(entity: CharacterBody2D) -> void:
 		entity.queue_free()
 
 func on_player_death() -> void:
-	# TEMP
-	goto_scene("res://scenes/main.tscn")
+	SceneManager.goto_home() # TEMP
 
-	# TODO - show death screen
+	# TODO - show death screen -> goto_home
