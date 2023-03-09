@@ -15,7 +15,6 @@ var collision_check_delay := 0.5
 
 # TODO - implement something like "states"
 var is_casting := false
-var in_casting_animation := false
 var is_hurt := false
 
 @onready var casting_point := $CastingPoint as Marker2D
@@ -104,7 +103,6 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 func _physics_process(_delta: float) -> void:
 	move()
 	process_spell_casting()
-	pick_animation_state()
 
 func move() -> void:
 	var movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
@@ -118,6 +116,9 @@ func move() -> void:
 		velocity.x = (moveX * speed) if moveX else move_toward(velocity.x, 0, speed)
 		velocity.y = (moveY * speed) if moveY else move_toward(velocity.y, 0, speed)
 
+		if velocity != Vector2.ZERO:
+			animation_state_machine.travel("walk")
+
 	move_and_slide()
 
 func process_spell_casting() -> void:
@@ -130,8 +131,8 @@ func process_spell_casting() -> void:
 		if not spell.can_be_casted():
 			i += 1
 		else:
+			animation_state_machine.travel("attack")
 			is_casting = true
-			in_casting_animation = true
 	
 			spells_cast_timer[i].start() # cast spell after spell.cast_time
 			return
@@ -145,7 +146,7 @@ func cast_spell(spell: Spell, target_pos: Vector2) -> void:
 
 	GameManager.add_projectile(spell_inst)
 
-# TEMP
+# TODO - refresh hirtbox
 func _on_hirtbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		#if body.target == self:
@@ -156,13 +157,11 @@ func _on_hirtbox_body_entered(body: Node2D) -> void:
 	
 func apply_damage(_damage: float) -> void:
 	health = clamp(health - _damage, 0.0, max_health)
-	# TEMP
+	animation_state_machine.travel("hurt")
+
 	is_hurt = true
-	in_casting_animation = false
 
 	print("player health: ", health)
-
-	# TODO - visual effect
 
 	if health == 0.0:
 		GameManager.on_entity_death(self)
@@ -170,21 +169,7 @@ func apply_damage(_damage: float) -> void:
 func push(force: Vector2) -> void:
 	velocity += force
 
-# TODO - rewrite
-func pick_animation_state() -> void:
-	if is_hurt:
-		animation_state_machine.travel("hurt")
-	elif (velocity != Vector2.ZERO):
-		animation_state_machine.travel("walk")
-		in_casting_animation = false
-	elif (in_casting_animation):
-		animation_state_machine.travel("attack")
-	else:
-		animation_state_machine.travel("idle")
-
 func _on_player_animation_tree_animation_finished(anim_name: StringName):
 	match anim_name:
-		"attack":
-			in_casting_animation = false
 		"hurt":
 			is_hurt = false
