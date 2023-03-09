@@ -3,7 +3,7 @@ class_name Slime # TODO - extract base logic to "Enemy" class
 extends CharacterBody2D
 
 
-var max_health := 20.0
+var max_health := 25.0
 var health := max_health
 var speed := 20.0
 

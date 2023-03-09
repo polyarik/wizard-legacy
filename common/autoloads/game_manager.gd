@@ -22,7 +22,7 @@ var enemy_min_spawn_distance := 256
 var enemy_max_spawn_distance := 512
 var enemy_despawn_distance := 1024
 var enemy_spawn_timer: Timer
-var enemy_spawn_cooldown := 4.0
+var enemy_spawn_cooldown := 2.0
 
 var energy := 0.0 # TEMP
 
@@ -71,6 +71,7 @@ func load_location() -> void:
 
 	# TODO - only pass the picked spells to the player
 	var spells: Array[Spell] = [
+		spell_book.get_spell("fire_ball"),
 		spell_book.get_spell("magic_missile")
 	]
 

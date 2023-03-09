@@ -6,8 +6,17 @@ var _spell_collection := {
 	magic_missile = {
 		scene = preload("res://scenes/game/particles/magic_missile/magic_missile.tscn"),
 		cooldown = 0.6,
-		cast_time = 0.4,
+		cast_time = 0.3,
 		cast_conditions = {max_distance = 128}, #visible_target = true}, # TODO
+		#target = closest
+		#cooldown_coeff
+		#levels / upgrades
+	},
+	fire_ball = {
+		scene = preload("res://scenes/game/particles/fire_ball/fire_ball.tscn"),
+		cooldown = 4.0,
+		cast_time = 0.5,
+		cast_conditions = {max_distance = 80}, #visible_target = true}, # TODO
 		#target = closest
 		#cooldown_coeff
 		#levels / upgrades

@@ -30,13 +30,14 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 	for spell in new_spells:
 		if spell:
 			spells.append(spell)
+			var spell_num := len(spells) - 1
 
 			var spell_timer := Timer.new()
 			add_child(spell_timer)
 
 			spell_timer.wait_time = spell.cooldown
 			spell_timer.one_shot = true
-			spell_timer.timeout.connect(func() -> void: spells[-1].on_cooldown = false) # TEST - needs testing
+			spell_timer.timeout.connect(func() -> void: spells[spell_num].on_cooldown = false)
 
 			spells_timer.append(spell_timer)
 
@@ -58,7 +59,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 
 				#if spell.target == "closest":
 				var enemy_check_timer = Timer.new()
-				enemy_check_timer.name = "EnemyCheckTimer" + str(len(spells))
+				enemy_check_timer.name = "EnemyCheckTimer" + str(spell_timer)
 				add_child(enemy_check_timer)
 
 				enemy_check_timer.timeout.connect(func() -> void:
@@ -73,8 +74,8 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 								min_dist = new_dist
 								closest_enemy = body
 
-					spells_target[-1] = closest_enemy
-					spells[-1].conditions_met["max_distance"] = true if closest_enemy else false
+					spells_target[spell_num] = closest_enemy
+					spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false
 				)
 
 				enemy_check_timer.wait_time = collision_check_delay
@@ -91,11 +92,11 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			spell_cast_timer.wait_time = spell.cast_time
 			spell_cast_timer.one_shot = true
 			spell_cast_timer.timeout.connect(func() -> void:
-				spells_timer[-1].start() # start spell cooldown
+				spells_timer[spell_num].start() # start spell cooldown
 				is_casting = false
 
-				if spells_target[-1] and is_instance_valid(spells_target[-1]): # TEMP
-					cast_spell(spells[-1], spells_target[-1].global_position)
+				if spells_target[spell_num] and is_instance_valid(spells_target[spell_num]): # TEMP
+					cast_spell(spells[spell_num], spells_target[spell_num].global_position)
 			)
 
 			spells_cast_timer.append(spell_cast_timer)
