@@ -13,6 +13,9 @@ var target: PlayerCharacter
 
 var energy_reward := 10.0
 
+@onready var animation_tree := $SlimeAnimationTree as AnimationTree
+@onready var animation_state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
+
 
 func _physics_process(_delta) -> void:
 	# TODO - sense the player only if they're near, otherwise move randomly
@@ -25,6 +28,7 @@ func _physics_process(_delta) -> void:
 
 func apply_damage(_damage: float) -> void:
 	health = clamp(health - _damage, 0.0, max_health)
+	animation_state_machine.travel("hurt") # TODO - pick animation state in _physics_process
 
 	if health == 0.0:
 		GameManager.on_entity_death(self)
