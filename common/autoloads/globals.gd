@@ -1,6 +1,10 @@
 extends Node
 
 
+# TODO - load from local
+@export var picked_spells = ["fire_ball", "magic_missile"]
+
+
 func create_timer(callback: Callable, cooldown: float, is_one_shot:=true, timer_name:="") -> Timer:
 	var timer := Timer.new()
 

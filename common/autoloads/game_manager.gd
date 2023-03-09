@@ -66,11 +66,10 @@ func load_location() -> void:
 	player = location_node.get_tree().get_first_node_in_group("Player")
 	energy = 0.0 # TEMP
 
-	# TODO - only pass the picked spells to the player
-	var spells: Array[Spell] = [
-		SpellBook.get_spell("fire_ball"),
-		SpellBook.get_spell("magic_missile")
-	]
+	var spells: Array[Spell] = []
+
+	for spell in Globals.picked_spells:
+		spells.append(SpellBook.get_spell(spell))
 
 	player.learn_spells(spells)
 

@@ -59,27 +59,27 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				area.add_child(collision_shape)
 
 				#if spell.target == "closest":
-				var enemy_check_timer = Timer.new()
-				enemy_check_timer.name = "EnemyCheckTimer" + str(spell_timer)
-				add_child(enemy_check_timer)
-
-				enemy_check_timer.timeout.connect(func() -> void:
-					var closest_enemy: CharacterBody2D = null
-					var min_dist: float = spell.cast_conditions["max_distance"]
-
-					for body in area.get_overlapping_bodies():
-						if body.is_in_group("Enemy"):
-							var new_dist := global_position.distance_to(body.global_position)
-
-							if new_dist <= min_dist:
-								min_dist = new_dist
-								closest_enemy = body
-
-					spells_target[spell_num] = closest_enemy
-					spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false
+				var enemy_check_timer := Globals.create_timer(
+					func() -> void:
+						var closest_enemy: CharacterBody2D = null
+						var min_dist: float = spell.cast_conditions["max_distance"]
+	
+						for body in area.get_overlapping_bodies():
+							if body.is_in_group("Enemy"):
+								var new_dist := global_position.distance_to(body.global_position)
+	
+								if new_dist <= min_dist:
+									min_dist = new_dist
+									closest_enemy = body
+	
+						spells_target[spell_num] = closest_enemy
+						spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false,
+					collision_check_delay,
+					false,
+					"EnemyCheckTimer" + str(spell_num)
 				)
 
-				enemy_check_timer.wait_time = collision_check_delay
+				add_child(enemy_check_timer)
 				enemy_check_timer.start()
 
 				if spell.cast_conditions.has("visible_target"):
