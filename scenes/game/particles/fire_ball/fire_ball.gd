@@ -33,6 +33,7 @@ func _on_body_entered(body: Node2D) -> void:
 		blast()
 		queue_free()
 	elif body.is_in_group("Static"):
+		blast()
 		queue_free()
 
 func blast() -> void:
