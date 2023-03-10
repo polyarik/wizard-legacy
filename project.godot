@@ -20,10 +20,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SpellBook="*res://common/autoloads/spell_book.gd"
-GameManager="*res://common/autoloads/game_manager.gd"
-SceneManager="*res://common/autoloads/scene_manager.gd"
 Globals="*res://common/autoloads/globals.gd"
+SceneManager="*res://common/autoloads/scene_manager.tscn"
+GameManager="*res://common/autoloads/game_manager.gd"
+SpellBook="*res://common/autoloads/spell_book.gd"
 
 [debug]
 

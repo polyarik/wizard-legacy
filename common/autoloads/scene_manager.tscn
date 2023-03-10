@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://cl43xcaxixcp4"]
+
+[ext_resource type="Script" path="res://common/autoloads/scene_manager.gd" id="1_b0wai"]
+
+[sub_resource type="Animation" id="Animation_u1ji7"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cswa6"]
+resource_name = "dissolve"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4b1hx"]
+_data = {
+"RESET": SubResource("Animation_u1ji7"),
+"dissolve": SubResource("Animation_cswa6")
+}
+
+[node name="SceneManager" type="CanvasLayer"]
+script = ExtResource("1_b0wai")
+
+[node name="DissolveRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.380392, 0.0823529, 0.541176, 1)
+
+[node name="TransitionAnimations" type="AnimationPlayer" parent="."]
+root_node = NodePath("../DissolveRect")
+libraries = {
+"": SubResource("AnimationLibrary_4b1hx")
+}

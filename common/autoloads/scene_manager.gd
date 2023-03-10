@@ -1,14 +1,16 @@
-extends Node
+extends CanvasLayer
 
 
 var home_scene := preload("res://scenes/home/home.tscn")
-#var transition # TODO
 
 var locations := {
 	demo = preload("res://scenes/game/locations/demo_location.tscn"),
 }
+# TODO - story & survival locations
 
 var current_scene: Node
+
+@onready var animation_player := $TransitionAnimations as AnimationPlayer
 
 
 func _ready():
@@ -19,13 +21,23 @@ func goto_location(location_name: String) -> void:
 	var location: PackedScene = locations.get(location_name, null)
 
 	if location:
+		animation_player.play("dissolve")
+		await animation_player.animation_finished
+
 		call_deferred("_deferred_goto_scene", location)
 		GameManager.call_deferred("load_location")
 
+		animation_player.call_deferred("play_backwards", "dissolve")
+
 func goto_home() -> void:
-	# TODO - handle location progress results
+	# TODO - handle location progress results in GameManager
+
+	animation_player.play("dissolve")
+	await animation_player.animation_finished
 
 	call_deferred("_deferred_goto_scene", home_scene)
+
+	animation_player.call_deferred("play_backwards", "dissolve")
 
 func _deferred_goto_scene(scene: PackedScene) -> void:
 	current_scene.free()

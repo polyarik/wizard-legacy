@@ -10,7 +10,7 @@ var player: PlayerCharacter
 
 # TEMP ---
 #var enemies: Array[Enemy] # TODO
-var enemies := [
+var enemies: Array[PackedScene] = [
 	preload("res://scenes/game/characters/slime/slime.tscn"),
 ]
 # TODO - implement different spawn modes
@@ -50,6 +50,7 @@ func load_location() -> void:
 	player.learn_spells(spells)
 
 	start_spawning_enemies()
+	PhysicsServer2D.set_active(true)
 
 func start_spawning_enemies() -> void:
 	# TODO - implement different spawn conditions
@@ -85,6 +86,12 @@ func on_entity_death(entity: CharacterBody2D) -> void:
 		entity.queue_free()
 
 func on_player_death() -> void:
-	SceneManager.goto_home() # TEMP
+	PhysicsServer2D.set_active(false)
 
 	# TODO - show death screen -> goto_home
+
+	# TEMP
+	enemy_spawn_timer.stop()
+	enemy_spawn_timer.queue_free()
+
+	SceneManager.goto_home()
