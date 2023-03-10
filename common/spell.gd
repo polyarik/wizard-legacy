@@ -1,5 +1,4 @@
 class_name Spell
-
 extends Area2D
 
 

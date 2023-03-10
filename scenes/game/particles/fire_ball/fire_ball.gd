@@ -1,5 +1,4 @@
 class_name FireBall
-
 extends Area2D
 
 

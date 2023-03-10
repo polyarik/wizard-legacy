@@ -1,7 +1,8 @@
 class_name PlayerCharacter
-
 extends CharacterBody2D
 
+
+signal health_changed(prev: float, new: float, max: float)
 
 @export var max_health := 100.0
 @export var health := 100.0
@@ -23,6 +24,9 @@ var is_hurt := false
 
 
 func _ready() -> void:
+	var hud := get_node("../..//HUD") as HUD
+	connect("health_changed", hud._on_player_heath_changed)
+
 	print("player health: ", health)
 
 # TODO - refactor
@@ -150,11 +154,13 @@ func _on_hirtbox_body_entered(body: Node2D) -> void:
 	
 func apply_damage(_damage: float) -> void:
 	health = clamp(health - _damage, 0.0, max_health)
-	animation_state_machine.travel("hurt")
 
+	animation_state_machine.travel("hurt")
 	is_hurt = true
 
 	print("player health: ", health)
+
+	emit_signal("health_changed", health + _damage, health, max_health)
 
 	if health == 0.0:
 		GameManager.on_entity_death(self)

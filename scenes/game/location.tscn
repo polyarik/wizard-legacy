@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bflahcppaeofw"]
+
+[ext_resource type="PackedScene" uid="uid://caagcfxut0gva" path="res://scenes/game/characters/player/player.tscn" id="1_v1huy"]
+[ext_resource type="PackedScene" uid="uid://w3skwq4lwlw5" path="res://scenes/game/hud/hud.tscn" id="2_1vhiv"]
+
+[node name="Location" type="Node2D" groups=["Location"]]
+y_sort_enabled = true
+
+[node name="Static" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Characters" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("1_v1huy")]
+position = Vector2(72, 128)
+
+[node name="PlayerRemoteTransform" type="RemoteTransform2D" parent="Characters/Player"]
+remote_path = NodePath("../../../Camera")
+
+[node name="Projectiles" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(72, 128)
+
+[node name="HUD" parent="." instance=ExtResource("2_1vhiv")]

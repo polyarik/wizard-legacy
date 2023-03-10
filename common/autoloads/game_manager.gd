@@ -3,8 +3,6 @@ extends Node
 ## 
 
 
-var hud := preload("res://scenes/game/hud/hud.tscn")
-
 var location_node: Node2D
 var characters_node: Node2D
 var projectiles_node: Node2D
@@ -29,8 +27,6 @@ var energy := 0.0 # TEMP
 func load_location() -> void:
 	location_node = get_tree().get_first_node_in_group("Location")
 
-	location_node.add_child(hud.instantiate())
-
 	characters_node = location_node.get_node_or_null("Characters")
 	if characters_node == null:
 		characters_node = Node2D.new()
@@ -44,6 +40,7 @@ func load_location() -> void:
 		location_node.add_child(projectiles_node)
 
 	player = location_node.get_tree().get_first_node_in_group("Player")
+
 	energy = 0.0 # TEMP
 
 	var spells: Array[Spell] = []

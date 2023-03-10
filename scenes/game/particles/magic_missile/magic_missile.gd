@@ -1,5 +1,4 @@
 class_name MagicMissile
-
 extends Area2D
 
 

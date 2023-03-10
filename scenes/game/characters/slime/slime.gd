@@ -1,5 +1,4 @@
 class_name Slime # TODO - extract base logic to "Enemy" class
-
 extends CharacterBody2D
 
 
