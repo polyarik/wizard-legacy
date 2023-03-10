@@ -6,7 +6,6 @@ signal health_changed(change: float, value: float, max: float)
 
 @export var speed := 64.0
 @export var max_health := 100.0
-
 @export var health := 100.0:
 	get:
 		return health
@@ -24,6 +23,7 @@ var collision_check_delay := 0.5
 var is_casting := false
 var is_hurt := false
 
+@onready var spell_manager := $SpellManager as Node2D
 @onready var casting_point := $CastingPoint as Marker2D
 @onready var animation_tree := $PlayerAnimationTree as AnimationTree
 @onready var animation_state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
@@ -45,14 +45,18 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			spells.append(spell)
 			var spell_num := len(spells) - 1
 
+			var spell_nodes := Node2D.new()
+			spell_nodes.name = "SpellNodes" + str(spell_num)
+			spell_manager.add_child(spell_nodes)
+
 			var spell_timer := Globals.create_timer(
 				func() -> void: spells[spell_num].on_cooldown = false,
 				spell.cooldown,
 				true,
-				"SpellTimer" + str(spell_num)
+				"SpellCooldown" + str(spell_num)
 			)
 
-			add_child(spell_timer)
+			spell_nodes.add_child(spell_timer)
 			spells_timer.append(spell_timer)
 
 			# TODO? - use match
@@ -60,16 +64,16 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				spells_target.append(null)
 
 				var area_radius: float = spell.cast_conditions["max_distance"]
-				var area := Globals.create_circle_area(area_radius, 0, 4, "EnemyDetection" + str(spell_num))
-				add_child(area)
+				var enemy_detection_area := Globals.create_circle_area(area_radius, 0, 4, "EnemyDetection" + str(spell_num))
+				spell_nodes.add_child(enemy_detection_area)
 
 				#if spell.target == "closest":
-				var enemy_check_timer := Globals.create_timer(
+				var enemy_detection_timer := Globals.create_timer(
 					func() -> void:
 						var closest_enemy: CharacterBody2D = null
 						var min_dist: float = spell.cast_conditions["max_distance"]
 	
-						for body in area.get_overlapping_bodies():
+						for body in enemy_detection_area.get_overlapping_bodies():
 							if body.is_in_group("Enemy"):
 								var new_dist := global_position.distance_to(body.global_position)
 	
@@ -81,11 +85,11 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 						spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false,
 					collision_check_delay,
 					false,
-					"EnemyCheckTimer" + str(spell_num)
+					"EnemyDetectionTimer" + str(spell_num)
 				)
 
-				add_child(enemy_check_timer)
-				enemy_check_timer.start()
+				enemy_detection_area.add_child(enemy_detection_timer)
+				enemy_detection_timer.start()
 
 				if spell.cast_conditions.has("visible_target"):
 					# TODO
@@ -100,10 +104,10 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 						cast_spell(spells[spell_num], spells_target[spell_num].global_position),
 				spell.cast_time,
 				true,
-				"SpellCastTimer" + str(spell_num)
+				"SpellCastingDelay" + str(spell_num)
 			)
 
-			add_child(spell_cast_timer)
+			spell_nodes.add_child(spell_cast_timer)
 			spells_cast_timer.append(spell_cast_timer)
 
 func _physics_process(_delta: float) -> void:
