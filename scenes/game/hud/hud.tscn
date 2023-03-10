@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://w3skwq4lwlw5"]
+
+[ext_resource type="Script" path="res://scenes/game/hud/hud.gd" id="1_y7rf0"]
+[ext_resource type="PackedScene" uid="uid://buyvavyuwmccw" path="res://addons/virtual_joystick/joystick/virtual_joystick.tscn" id="2_xjj8a"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_y7rf0")
+
+[node name="VirtualJoystick" parent="." instance=ExtResource("2_xjj8a")]
+visibility_mode = 2
+
+[editable path="VirtualJoystick"]

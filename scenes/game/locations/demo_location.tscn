@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://ddb1mmxb6on8j"]
+[gd_scene load_steps=9 format=3 uid="uid://ddb1mmxb6on8j"]
 
 [ext_resource type="PackedScene" uid="uid://caagcfxut0gva" path="res://scenes/game/characters/player/player.tscn" id="1_rxbg0"]
 [ext_resource type="PackedScene" uid="uid://bsfbbyp11lrg3" path="res://scenes/game/characters/slime/slime.tscn" id="2_0iq0t"]
-[ext_resource type="PackedScene" uid="uid://buyvavyuwmccw" path="res://addons/virtual_joystick/joystick/virtual_joystick.tscn" id="2_jkuvy"]
 [ext_resource type="Texture2D" uid="uid://ctelqfs6qptcc" path="res://scenes/game/locations/demo_terrain.png" id="3_l1b81"]
 [ext_resource type="PackedScene" uid="uid://bsxco5w7cxvb5" path="res://scenes/game/static/rock.tscn" id="4_3a43y"]
 
@@ -83,8 +82,3 @@ layer_1/tile_data = PackedInt32Array(-720911, 1, 131072, -655375, 1, 131072, -58
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(72, 128)
-
-[node name="HUD" type="CanvasLayer" parent="."]
-
-[node name="VirtualJoystick" parent="HUD" instance=ExtResource("2_jkuvy")]
-visibility_mode = 2
