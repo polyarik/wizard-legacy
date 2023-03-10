@@ -21,23 +21,23 @@ func goto_location(location_name: String) -> void:
 	var location: PackedScene = locations.get(location_name, null)
 
 	if location:
-		animation_player.play("dissolve")
+		animation_player.play("to_location")
 		await animation_player.animation_finished
 
 		call_deferred("_deferred_goto_scene", location)
 		GameManager.call_deferred("load_location")
 
-		animation_player.call_deferred("play_backwards", "dissolve")
+		animation_player.call_deferred("play_backwards", "to_location")
 
 func goto_home() -> void:
 	# TODO - handle location progress results in GameManager
 
-	animation_player.play("dissolve")
+	animation_player.play("to_home")
 	await animation_player.animation_finished
 
 	call_deferred("_deferred_goto_scene", home_scene)
 
-	animation_player.call_deferred("play_backwards", "dissolve")
+	animation_player.call_deferred("play_backwards", "to_home")
 
 func _deferred_goto_scene(scene: PackedScene) -> void:
 	current_scene.free()
