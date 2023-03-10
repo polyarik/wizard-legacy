@@ -5,6 +5,7 @@ extends Node
 @export var picked_spells = ["fire_ball", "magic_missile"]
 
 
+# --- Global Functions ---
 func create_timer(callback: Callable, cooldown: float, is_one_shot:=true, timer_name:="") -> Timer:
 	var timer := Timer.new()
 
@@ -16,3 +17,23 @@ func create_timer(callback: Callable, cooldown: float, is_one_shot:=true, timer_
 		timer.name = timer_name
 
 	return timer
+
+func create_circle_area(radius: float, layer:=0, mask:=0, area_name:="") -> Area2D:
+	var area := Area2D.new()
+
+	area.collision_layer = layer
+	area.collision_mask = mask
+
+	var circle_shape := CircleShape2D.new()
+	circle_shape.radius = radius
+
+	var collision_shape := CollisionShape2D.new()
+	collision_shape.shape = circle_shape
+
+	if area_name:
+		area.name = area_name
+		collision_shape.name = area_name + "Collision"
+
+	area.add_child(collision_shape)
+
+	return area

@@ -46,17 +46,9 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 			if spell.cast_conditions.has("max_distance"):
 				spells_target.append(null)
 
-				var area := Area2D.new()
-				area.collision_layer = 0
-				area.collision_mask = 4
+				var area_radius: float = spell.cast_conditions["max_distance"]
+				var area := Globals.create_circle_area(area_radius, 0, 4, "EnemyDetection" + str(spell_num))
 				add_child(area)
-
-				var circle_shape := CircleShape2D.new()
-				circle_shape.radius = spell.cast_conditions["max_distance"]
-
-				var collision_shape := CollisionShape2D.new()
-				collision_shape.shape = circle_shape
-				area.add_child(collision_shape)
 
 				#if spell.target == "closest":
 				var enemy_check_timer := Globals.create_timer(

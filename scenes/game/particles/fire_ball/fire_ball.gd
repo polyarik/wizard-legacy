@@ -10,6 +10,8 @@ var direction := Vector2.ZERO
 var damage := 15.0
 var blast_damage := 5
 
+@onready var blast_area := $BlastHitbox as Area2D
+
 
 func _ready() -> void:
 	hanlde_lifetime()
@@ -37,8 +39,6 @@ func _on_body_entered(body: Node2D) -> void:
 		queue_free()
 
 func blast() -> void:
-	var blast_area = $BlastHitbox
-
 	for body in blast_area.get_overlapping_bodies():
 		if body.is_in_group("Enemy"):
 			var enemy := body as Slime # TODO - as Enemy
