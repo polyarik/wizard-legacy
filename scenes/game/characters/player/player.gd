@@ -2,11 +2,17 @@ class_name PlayerCharacter
 extends CharacterBody2D
 
 
-signal health_changed(prev: float, new: float, max: float)
+signal health_changed(change: float, value: float, max: float)
 
-@export var max_health := 100.0
-@export var health := 100.0
 @export var speed := 64.0
+@export var max_health := 100.0
+
+@export var health := 100.0:
+	get:
+		return health
+	set(value):
+		health_changed.emit(value - health, value, max_health)
+		health = value
 
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
@@ -24,10 +30,13 @@ var is_hurt := false
 
 
 func _ready() -> void:
-	var hud := get_node("../..//HUD") as HUD
-	connect("health_changed", hud._on_player_heath_changed)
+	connect_signals()
 
 	print("player health: ", health)
+
+func connect_signals() -> void:
+	var hud := get_node("../..//HUD") as HUD
+	connect("health_changed", hud._on_player_heath_changed)
 
 # TODO - refactor
 func learn_spells(new_spells: Array[Spell]) -> void:
@@ -152,16 +161,16 @@ func _on_hirtbox_body_entered(body: Node2D) -> void:
 		var push_force: Vector2 = body.position.direction_to(global_position) * body.push_force
 		push(push_force)
 	
-func apply_damage(_damage: float) -> void:
-	health = clamp(health - _damage, 0.0, max_health)
+func apply_damage(damage: float) -> void:
+	health = clamp(health - damage, 0.0, max_health)
 
-	animation_state_machine.travel("hurt")
-	is_hurt = true
+	if damage > 0:
+		animation_state_machine.travel("hurt")
+		is_hurt = true
 
 	print("player health: ", health)
 
-	emit_signal("health_changed", health + _damage, health, max_health)
-
+	# TODO? - or emit signal in health setter
 	if health == 0.0:
 		GameManager.on_entity_death(self)
 
