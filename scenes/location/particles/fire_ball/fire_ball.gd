@@ -3,7 +3,6 @@ extends Area2D
 
 
 var spawned_from: Node = null
-var lifetime := 3.0 # seconds
 var speed := 50 # px/sec
 var direction := Vector2.ZERO
 var damage := 15.0
@@ -11,15 +10,6 @@ var blast_damage := 5
 
 @onready var blast_area := $BlastHitbox as Area2D
 
-
-func _ready() -> void:
-	hanlde_lifetime()
-
-func hanlde_lifetime() -> void:
-	var lifetime_timer := Globals.create_timer(queue_free, lifetime)
-
-	add_child(lifetime_timer)
-	lifetime_timer.start()
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
@@ -37,14 +27,16 @@ func _on_body_entered(body: Node2D) -> void:
 		blast()
 		queue_free()
 
+	# TODO - play "destroy" animation
+
 func blast() -> void:
 	for body in blast_area.get_overlapping_bodies():
 		if body.is_in_group("Enemy"):
 			var enemy := body as Slime # TODO - as Enemy
 			enemy.apply_damage(blast_damage)
 
-	# TODO - play blast animation
+	# TODO - play "blast" animation
 
-func _exit_tree() -> void:
-	# TODO - play "destroy" animation
-	pass
+func _on_lifetime_timer_timeout():
+	# TODO - play "fade" animation
+	queue_free()

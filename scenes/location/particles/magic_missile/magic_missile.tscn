@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://6jrdnj505ps4"]
 
 [ext_resource type="Script" path="res://scenes/location/particles/magic_missile/magic_missile.gd" id="1_yky3a"]
 [ext_resource type="Texture2D" uid="uid://bmhkylv71ncbk" path="res://scenes/location/particles/magic_missile/magic_missile.png" id="2_vpa58"]
@@ -15,4 +15,10 @@ texture = ExtResource("2_vpa58")
 self_modulate = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, -2, -2, 0, 0, 2, 2, 0)
 
+[node name="LifetimeTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]
