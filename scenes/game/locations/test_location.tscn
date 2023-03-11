@@ -1,15 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://c2jdy5ia4n85f"]
+[gd_scene load_steps=9 format=3 uid="uid://b3hc12wpcsp8t"]
 
 [ext_resource type="PackedScene" uid="uid://bflahcppaeofw" path="res://scenes/game/location.tscn" id="1_ncowo"]
 [ext_resource type="PackedScene" uid="uid://bsfbbyp11lrg3" path="res://scenes/game/characters/slime/slime.tscn" id="2_kbpf2"]
-[ext_resource type="Texture2D" uid="uid://ctelqfs6qptcc" path="res://scenes/game/locations/demo_terrain.png" id="3_6s4r0"]
+[ext_resource type="Texture2D" uid="uid://ctelqfs6qptcc" path="res://scenes/game/locations/test_terrain.png" id="2_wqrwk"]
 [ext_resource type="PackedScene" uid="uid://bsxco5w7cxvb5" path="res://scenes/game/static/rock.tscn" id="4_0vubu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3bgk7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8w4gt"]
 resource_name = "terrain"
-texture = ExtResource("3_6s4r0")
+texture = ExtResource("2_wqrwk")
 texture_region_size = Vector2i(30, 30)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)

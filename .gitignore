@@ -10,10 +10,10 @@ mono_crash.*.json
 
 *.translation
 
-
 # Other
 android/
 .vscode/
 *.log
+*.tmp
 
 assets/.raw/
