@@ -17,16 +17,17 @@ var spells: Array[Spell]
 var spells_timer: Array[Timer]
 var spells_cast_timer: Array[Timer] # TEMP
 var spells_target: Array[Node2D] # TEMP
-var collision_check_delay := 0.5
 
 # TODO - implement something like "states"
 var is_casting := false
 var is_hurt := false
 
-@onready var spell_manager := $SpellManager as Node2D
-@onready var casting_point := $CastingPoint as Marker2D
 @onready var animation_tree := $PlayerAnimationTree as AnimationTree
 @onready var animation_state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
+
+@onready var spell_manager := $SpellManager as Node2D # TODO - move all casting logic to SpellManager class
+@onready var enemy_detection_timer := $SpellManager/EnemyDetectionTimer as Timer
+@onready var casting_point := $CastingPoint as Marker2D
 
 
 func _ready() -> void:
@@ -68,7 +69,7 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 				spell_nodes.add_child(enemy_detection_area)
 
 				#if spell.target == "closest":
-				var enemy_detection_timer := Globals.create_timer(
+				enemy_detection_timer.timeout.connect(
 					func() -> void:
 						var closest_enemy: CharacterBody2D = null
 						var min_dist: float = spell.cast_conditions["max_distance"]
@@ -82,14 +83,8 @@ func learn_spells(new_spells: Array[Spell]) -> void:
 									closest_enemy = body
 	
 						spells_target[spell_num] = closest_enemy
-						spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false,
-					collision_check_delay,
-					false,
-					"EnemyDetectionTimer" + str(spell_num)
+						spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false
 				)
-
-				enemy_detection_area.add_child(enemy_detection_timer)
-				enemy_detection_timer.start()
 
 				if spell.cast_conditions.has("visible_target"):
 					# TODO
@@ -148,11 +143,13 @@ func process_spell_casting() -> void:
 			return
 
 # TODO - implement different spell types behaviour
-func cast_spell(spell: Spell, target_pos: Vector2) -> void:
+func cast_spell(spell: Spell, target_position: Vector2) -> void:
 	var spell_inst := spell.cast()
 	spell_inst.spawned_from = self
-	spell_inst.position = casting_point.global_position
-	spell_inst.direction = casting_point.global_position.direction_to(target_pos) # TEMP
+
+	var spell_position: Vector2 = casting_point.global_position if casting_point else global_position
+	spell_inst.position = spell_position
+	spell_inst.direction = spell_position.direction_to(target_position) # TEMP
 
 	GameManager.add_projectile(spell_inst)
 
