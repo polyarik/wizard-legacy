@@ -4,7 +4,7 @@ extends CanvasLayer
 var home_scene := preload("res://scenes/home/home.tscn")
 
 var locations := {
-	test = preload("res://scenes/game/locations/test_location.tscn"),
+	test = preload("res://scenes/location/locations/test_location.tscn"),
 }
 # TODO - story & survival locations
 

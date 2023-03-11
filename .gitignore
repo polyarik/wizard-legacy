@@ -16,4 +16,4 @@ android/
 *.log
 *.tmp
 
-assets/.raw/
+.raw/

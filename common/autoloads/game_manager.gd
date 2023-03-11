@@ -11,7 +11,7 @@ var player: PlayerCharacter
 # TEMP ---
 #var enemies: Array[Enemy] # TODO
 var enemies: Array[PackedScene] = [
-	preload("res://scenes/game/characters/slime/slime.tscn"),
+	preload("res://scenes/location/characters/slime/slime.tscn"),
 ]
 # TODO - implement different spawn modes
 # TODO - implement world boundaries

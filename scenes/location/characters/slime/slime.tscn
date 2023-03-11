@@ -1,0 +1,121 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scenes/location/characters/slime/slime.gd" id="1_4spfw"]
+[ext_resource type="Texture2D" uid="uid://cwcnlue1vquf1" path="res://scenes/location/characters/slime/slime.png" id="2_vpgo5"]
+
+[sub_resource type="Animation" id="Animation_l4fe6"]
+resource_name = "idle"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_diosr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_k17l4"]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5qfrk"]
+_data = {
+"RESET": SubResource("Animation_diosr"),
+"hurt": SubResource("Animation_k17l4"),
+"idle": SubResource("Animation_l4fe6")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k2wem"]
+animation = &"hurt"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m5hf5"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_88e31"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jfl6x"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iptd6"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_addxf"]
+states/Start/position = Vector2(195, 100)
+states/hurt/node = SubResource("AnimationNodeAnimation_k2wem")
+states/hurt/position = Vector2(523, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_m5hf5")
+states/idle/position = Vector2(359, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_88e31"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_jfl6x"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_iptd6")]
+graph_offset = Vector2(-77, -24)
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_4h584"]
+
+[node name="Slime" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 5
+safe_margin = 0.4
+script = ExtResource("1_4spfw")
+
+[node name="SlimeShape" type="CollisionPolygon2D" parent="."]
+self_modulate = Color(0, 0, 0, 0.498039)
+polygon = PackedVector2Array(0, 2, 4, 2, 5, -2, 2, -6, -2, -6, -5, -2, -4, 2)
+
+[node name="SlimeSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+texture = ExtResource("2_vpgo5")
+hframes = 2
+
+[node name="Hitbox" type="Area2D" parent="."]
+modulate = Color(1, 0, 0.0941176, 1)
+position = Vector2(0, -2)
+collision_layer = 4
+collision_mask = 0
+
+[node name="SlimeShape2" type="CollisionPolygon2D" parent="Hitbox"]
+position = Vector2(0, 2)
+polygon = PackedVector2Array(0, 2, 4, 2, 5, -2, 2, -6, -2, -6, -5, -2, -4, 2)
+
+[node name="SlimeAnimations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5qfrk")
+}
+
+[node name="SlimeAnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_addxf")
+anim_player = NodePath("../SlimeAnimations")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_4h584")
