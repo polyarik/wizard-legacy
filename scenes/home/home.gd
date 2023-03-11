@@ -5,4 +5,4 @@ extends Node2D
 func _ready():
 	print("home :3")
 
-	SceneManager.goto_location("test") # TEMP
+	SceneManager.goto_location("test")  # TEMP

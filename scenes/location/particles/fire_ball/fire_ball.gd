@@ -1,9 +1,8 @@
 class_name FireBall
 extends Area2D
 
-
 var spawned_from: Node = null
-var speed := 50 # px/sec
+var speed := 50  # px/sec
 var direction := Vector2.ZERO
 var damage := 15.0
 var blast_damage := 5
@@ -14,12 +13,13 @@ var blast_damage := 5
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
+
 func _on_body_entered(body: Node2D) -> void:
 	if body == spawned_from:
 		return
 
 	if body.is_in_group("Enemy"):
-		var enemy := body as Slime # TODO - as Enemy
+		var enemy := body as Slime  # TODO - as Enemy
 		enemy.apply_damage(damage)
 		blast()
 		queue_free()
@@ -29,13 +29,15 @@ func _on_body_entered(body: Node2D) -> void:
 
 	# TODO - play "destroy" animation
 
+
 func blast() -> void:
 	for body in blast_area.get_overlapping_bodies():
 		if body.is_in_group("Enemy"):
-			var enemy := body as Slime # TODO - as Enemy
+			var enemy := body as Slime  # TODO - as Enemy
 			enemy.apply_damage(blast_damage)
 
 	# TODO - play "blast" animation
+
 
 func _on_lifetime_timer_timeout():
 	# TODO - play "fade" animation

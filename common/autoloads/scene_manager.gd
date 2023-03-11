@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-
 var home_scene := preload("res://scenes/home/home.tscn")
 
 var locations := {
@@ -17,6 +16,7 @@ func _ready():
 	var root := get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
 
+
 func goto_location(location_name: String) -> void:
 	var location: PackedScene = locations.get(location_name, null)
 
@@ -29,6 +29,7 @@ func goto_location(location_name: String) -> void:
 
 		animation_player.call_deferred("play_backwards", "to_location")
 
+
 func goto_home() -> void:
 	# TODO - handle location progress results in GameManager
 
@@ -38,6 +39,7 @@ func goto_home() -> void:
 	call_deferred("_deferred_goto_scene", home_scene)
 
 	animation_player.call_deferred("play_backwards", "to_home")
+
 
 func _deferred_goto_scene(scene: PackedScene) -> void:
 	current_scene.free()

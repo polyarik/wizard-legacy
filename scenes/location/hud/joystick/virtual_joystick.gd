@@ -10,30 +10,23 @@ extends Control
 @export var pressed_color: Color = Color.GRAY
 
 ## If the input is inside this range, the output is zero.
-@export_range(0, 200, 1) var deadzone_size : float = 10
+@export_range(0, 200, 1) var deadzone_size: float = 10
 
 ## The max distance the tip can reach.
-@export_range(0, 500, 1) var clampzone_size : float = 75
+@export_range(0, 500, 1) var clampzone_size: float = 75
 
-enum JoystickMode {
-	FIXED, ## The joystick doesn't move. Default.
-	DYNAMIC ## Every time the joystick area is pressed, the joystick position is set on the touched position.
-}
+enum JoystickMode { FIXED, DYNAMIC }  ## The joystick doesn't move. Default.  ## Every time the joystick area is pressed, the joystick position is set on the touched position.
 
 ## Whether the joystick should move on pressed.
 @export var joystick_mode: JoystickMode = JoystickMode.FIXED
 
-enum VisibilityMode {
-	ALWAYS, ## Always visible. Default.
-	TOUCHSCREEN_ONLY, ## Visible on touch screens only.
-	ON_TOUCH ## Visible on touch only.
-}
+enum VisibilityMode { ALWAYS, TOUCHSCREEN_ONLY, ON_TOUCH }  ## Always visible. Default.  ## Visible on touch screens only.  ## Visible on touch only.
 
 ## Whether or not the joystick is visible if there is no touchscreen
 @export var visibility_mode: VisibilityMode = VisibilityMode.ALWAYS
 
-## If [code]true[/code], the value returned from [method Input.get_axis] using 
-## [member action_left], [member action_right], [member action_up], and [member action_down] 
+## If [code]true[/code], the value returned from [method Input.get_axis] using
+## [member action_left], [member action_right], [member action_up], and [member action_down]
 ## are overridden with [member output] for each axis such that
 ## [code]Input.get_axis(action_left, action_right)[/code] should always equal [member output.x] and
 ## [code]Input.get_axis(action_up, action_down)[/code] should always equal [member output.y][br]
@@ -41,7 +34,7 @@ enum VisibilityMode {
 ## If you want to change the hotkeys for the default actions make sure [b]Show Built-in Action[/b] is checked.
 @export var use_input_actions := true
 
-## Input action for left direction 
+## Input action for left direction
 @export var action_left := "ui_left"
 ## Input action for right direction
 @export var action_right := "ui_right"
@@ -53,38 +46,49 @@ enum VisibilityMode {
 #### PUBLIC VARIABLES ####
 
 ## If [code]true[/code], the joystick's state is pressed. Means the joystick will receive inputs.
-var pressed := false : get = is_pressed
+var pressed := false:
+	get = is_pressed
+
 
 func is_pressed() -> bool:
 	return pressed
 
+
 ## Current position of the joystick. The value's length ranges from [code]0[/code] to [code]1.0[/code].
-var output := Vector2.ZERO : get = get_output
+var output := Vector2.ZERO:
+	get = get_output
+
 
 func get_output() -> Vector2:
 	return output
 
+
 #### PRIVATE VARIABLES ####
 
-var _touch_index : int = -1
+var _touch_index: int = -1
 
 @onready var _base := $Base as TextureRect
 @onready var _tip := $Base/Tip as TextureRect
 
 @onready var _base_radius = _base.size * _base.get_global_transform_with_canvas().get_scale() / 2
 
-@onready var _base_default_position : Vector2 = _base.position
-@onready var _tip_default_position : Vector2 = _tip.position
+@onready var _base_default_position: Vector2 = _base.position
+@onready var _tip_default_position: Vector2 = _tip.position
 
-@onready var _default_color : Color = _tip.modulate
+@onready var _default_color: Color = _tip.modulate
 
 #### FUNCTIONS ####
 
+
 func _ready() -> void:
-	if not DisplayServer.is_touchscreen_available() and visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY:
+	if (
+		not DisplayServer.is_touchscreen_available()
+		and visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY
+	):
 		hide()
 	elif visibility_mode == VisibilityMode.ON_TOUCH:
 		hide()
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
@@ -92,7 +96,13 @@ func _input(event: InputEvent) -> void:
 			show()
 
 			if _is_point_inside_joystick_area(event.position) and _touch_index == -1:
-				if joystick_mode == JoystickMode.DYNAMIC or (joystick_mode == JoystickMode.FIXED and _is_point_inside_base(event.position)):
+				if (
+					joystick_mode == JoystickMode.DYNAMIC
+					or (
+						joystick_mode == JoystickMode.FIXED
+						and _is_point_inside_base(event.position)
+					)
+				):
 					if joystick_mode == JoystickMode.DYNAMIC:
 						_move_base(event.position)
 					_touch_index = event.index
@@ -107,41 +117,63 @@ func _input(event: InputEvent) -> void:
 			_update_joystick(event.position)
 			get_viewport().set_input_as_handled()
 
+
 func _move_base(new_position: Vector2) -> void:
-	_base.global_position = new_position - _base.pivot_offset * get_global_transform_with_canvas().get_scale()
+	_base.global_position = (
+		new_position - _base.pivot_offset * get_global_transform_with_canvas().get_scale()
+	)
+
 
 func _move_tip(new_position: Vector2) -> void:
-	_tip.global_position = new_position - _tip.pivot_offset * _base.get_global_transform_with_canvas().get_scale()
+	_tip.global_position = (
+		new_position - _tip.pivot_offset * _base.get_global_transform_with_canvas().get_scale()
+	)
+
 
 func _is_point_inside_joystick_area(point: Vector2) -> bool:
-	var x: bool = point.x >= global_position.x and point.x <= global_position.x + (size.x * get_global_transform_with_canvas().get_scale().x)
-	var y: bool = point.y >= global_position.y and point.y <= global_position.y + (size.y * get_global_transform_with_canvas().get_scale().y)
+	var x: bool = (
+		point.x >= global_position.x
+		and (
+			point.x
+			<= global_position.x + (size.x * get_global_transform_with_canvas().get_scale().x)
+		)
+	)
+	var y: bool = (
+		point.y >= global_position.y
+		and (
+			point.y
+			<= global_position.y + (size.y * get_global_transform_with_canvas().get_scale().y)
+		)
+	)
 	return x and y
 
+
 func _is_point_inside_base(point: Vector2) -> bool:
-	var center : Vector2 = _base.global_position + _base_radius
-	var vector : Vector2 = point - center
+	var center: Vector2 = _base.global_position + _base_radius
+	var vector: Vector2 = point - center
 	if vector.length_squared() <= _base_radius.x * _base_radius.x:
 		return true
 	else:
 		return false
 
+
 func _update_joystick(touch_position: Vector2) -> void:
-	var center : Vector2 = _base.global_position + _base_radius
-	var vector : Vector2 = touch_position - center
+	var center: Vector2 = _base.global_position + _base_radius
+	var vector: Vector2 = touch_position - center
 	vector = vector.limit_length(clampzone_size)
-	
+
 	_move_tip(center + vector)
-	
+
 	if vector.length_squared() > deadzone_size * deadzone_size:
 		pressed = true
 		output = (vector - (vector.normalized() * deadzone_size)) / (clampzone_size - deadzone_size)
 	else:
 		pressed = false
 		output = Vector2.ZERO
-	
+
 	if use_input_actions:
 		_update_input_actions()
+
 
 func _update_input_actions() -> void:
 	if output.x < 0:
@@ -160,6 +192,7 @@ func _update_input_actions() -> void:
 		Input.action_press(action_down, output.y)
 	elif Input.is_action_pressed(action_down):
 		Input.action_release(action_down)
+
 
 func _reset() -> void:
 	pressed = false
@@ -181,6 +214,7 @@ func _reset() -> void:
 			Input.action_release(action_down)
 		if Input.is_action_pressed(action_up):
 			Input.action_release(action_up)
+
 
 func _exit_tree() -> void:
 	_reset()
