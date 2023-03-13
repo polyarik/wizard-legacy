@@ -2,6 +2,8 @@ extends Node
 
 ##
 
+# TODO - split to classes: Location , ...
+
 var location_node: Node2D
 var characters_node: Node2D
 var projectiles_node: Node2D
@@ -39,6 +41,7 @@ func load_location() -> void:
 		location_node.add_child(projectiles_node)
 
 	player = location_node.get_tree().get_first_node_in_group("Player")
+	player.died.connect(on_player_death)  # TEMP - move to Location class
 
 	energy = 0.0  # TEMP
 
@@ -53,6 +56,7 @@ func load_location() -> void:
 	PhysicsServer2D.set_active(true)
 
 
+# TEMP - move to Location class
 func start_spawning_enemies() -> void:
 	# TODO - implement different spawn conditions
 	enemy_spawn_timer = Globals.create_timer(
@@ -63,12 +67,14 @@ func start_spawning_enemies() -> void:
 	enemy_spawn_timer.start()
 
 
+# TEMP - move to Location class
 func spawn_enemy(enemy: PackedScene) -> void:
 	var rand_radius := randf_range(enemy_min_spawn_distance, enemy_max_spawn_distance)
 	var rand_angle := randf_range(0, TAU)
 	var spawn_position := Vector2(cos(rand_angle) * rand_radius, sin(rand_angle) * rand_radius)
 
 	var enemy_inst := enemy.instantiate()
+	enemy_inst.died.connect(on_entity_death)
 	enemy_inst.global_position = player.global_position + spawn_position
 
 	characters_node.add_child(enemy_inst)
@@ -79,12 +85,9 @@ func add_projectile(spell_inst: Node) -> void:
 
 
 func on_entity_death(entity: CharacterBody2D) -> void:
-	if entity.is_in_group("Player"):
-		on_player_death()
-	elif entity.is_in_group("Enemy"):
+	if entity.is_in_group("Enemy"):
 		energy += entity.energy_reward  # TEMP
 		print("energy: ", energy)
-		entity.queue_free()
 
 
 func on_player_death() -> void:

@@ -1,9 +1,19 @@
 class_name Slime  # TODO - extract base logic to "Enemy" class
 extends CharacterBody2D
 
-var max_health := 25.0
-var health := max_health
+signal died(entity: Slime)
+
 var speed := 20.0
+var max_health := 25.0
+var health := max_health:
+	get:
+		return health
+	set(value):
+		health = value
+
+		if health == 0.0:
+			emit_signal("died", self)
+			queue_free()
 
 var contact_damage := 10.0
 var push_force := 500.0  # TEMP
@@ -27,9 +37,10 @@ func _physics_process(_delta) -> void:
 		move_and_slide()
 
 
-func apply_damage(_damage: float) -> void:
-	health = clamp(health - _damage, 0.0, max_health)
-	animation_state_machine.travel("hurt")  # TODO - pick animation state in _physics_process
+# TODO - pass the damage source refrence
+func apply_damage(damage: float) -> void:
+	health = clamp(health - damage, 0.0, max_health)
 
-	if health == 0.0:
-		GameManager.on_entity_death(self)
+	if damage > 0:
+		animation_state_machine.travel("hurt")
+		# TODO - change current state to "hurt"

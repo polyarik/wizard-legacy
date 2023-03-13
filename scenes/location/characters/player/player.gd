@@ -2,6 +2,7 @@ class_name PlayerCharacter
 extends CharacterBody2D
 
 signal health_changed(change: float, value: float, max: float)
+signal died()
 
 @export var speed := 64.0
 @export var max_health := 100.0
@@ -11,6 +12,9 @@ signal health_changed(change: float, value: float, max: float)
 	set(value):
 		health_changed.emit(value - health, value, max_health)
 		health = value
+
+		if health == 0.0:
+			emit_signal("died")
 
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
@@ -38,7 +42,7 @@ func _ready() -> void:
 
 
 func connect_signals() -> void:
-	var hud := get_node("../..//HUD") as HUD
+	var hud := get_node("../..//HUD") as HUD  # TEMP - or get PlayerCharacter in HUD?
 	connect("health_changed", hud._on_player_heath_changed)
 
 
@@ -175,6 +179,7 @@ func _on_hirtbox_body_entered(body: Node2D) -> void:
 		push(push_force)
 
 
+# TODO - pass the damage source refrence (for some statistics?)
 func apply_damage(damage: float) -> void:
 	health = clamp(health - damage, 0.0, max_health)
 
@@ -183,10 +188,6 @@ func apply_damage(damage: float) -> void:
 		is_hurt = true
 
 	print("player health: ", health)
-
-	# TODO? - or emit signal in health setter
-	if health == 0.0:
-		GameManager.on_entity_death(self)
 
 
 func push(force: Vector2) -> void:
