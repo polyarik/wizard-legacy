@@ -13,6 +13,7 @@ var health := max_health:
 
 		if health == 0.0:
 			emit_signal("died", self)
+			# TODO - play "death" animation and only then queue_free()
 			queue_free()
 
 var contact_damage := 10.0

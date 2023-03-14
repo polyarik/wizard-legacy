@@ -5,9 +5,12 @@ extends CanvasLayer
 	low_hp = $Effects/LowHP,
 }
 @onready var effects_animation_player := $Effects/EffectsAnimations as AnimationPlayer
+# TODO? - or implement Camera class with "target"
+@onready var player_character := get_node("../Characters/Player") as PlayerCharacter
 
 
 func _ready():
+	player_character.health_changed.connect(_on_player_heath_changed)
 	effects_animation_player.play("pulsing")
 
 

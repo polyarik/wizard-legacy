@@ -15,6 +15,7 @@ signal died()
 
 		if health == 0.0:
 			emit_signal("died")
+			# TODO - play "death" animation
 
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
@@ -36,14 +37,7 @@ var is_hurt := false
 
 
 func _ready() -> void:
-	connect_signals()
-
 	print("player health: ", health)
-
-
-func connect_signals() -> void:
-	var hud := get_node("../..//HUD") as HUD  # TEMP - or get PlayerCharacter in HUD?
-	connect("health_changed", hud._on_player_heath_changed)
 
 
 # TODO - refactor
