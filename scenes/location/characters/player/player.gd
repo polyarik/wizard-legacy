@@ -1,6 +1,7 @@
 class_name PlayerCharacter
 extends CharacterBody2D
 
+signal cast(spell_num: int)  # TODO - rename to "cast_spell", receive in SpellManager
 signal health_changed(change: float, value: float, max: float)
 signal died()
 
@@ -10,7 +11,7 @@ signal died()
 	get:
 		return health
 	set(value):
-		health_changed.emit(value - health, value, max_health)
+		emit_signal("health_changed", value - health, value, max_health)
 		health = value
 
 		if health == 0.0:
@@ -37,6 +38,7 @@ var is_hurt := false
 
 
 func _ready() -> void:
+	cast.connect(_on_cast_spell)  # TEMP - move to SpellManager
 	print("player health: ", health)
 
 
@@ -145,11 +147,16 @@ func process_spell_casting() -> void:
 			animation_state_machine.travel("attack")
 			is_casting = true
 
-			spells_cast_timer[i].start()  # cast spell after spell.cast_time
+			emit_signal("cast", i)
 			return
 
 
-# TODO - implement different spell types behaviour
+# TODO - move to SpellManager
+func _on_cast_spell(spell_num: int) -> void:
+	spells_cast_timer[spell_num].start()  # cast spell after spell.cast_time
+
+
+# TODO - move to SpellManager class; implement different spell types behaviour
 func cast_spell(spell: Spell, target_position: Vector2) -> void:
 	var spell_inst := spell.cast()
 	spell_inst.spawned_from = self
