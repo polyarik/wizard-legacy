@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://dqm4p0r20m25u"]
 
 [ext_resource type="Texture2D" uid="uid://e387x0doucif" path="res://scenes/location/static/rock.png" id="1_nix4c"]
 

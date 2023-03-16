@@ -11,6 +11,7 @@ func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
 
+# TODO - detect collision with Hurtbox and disable "monitorable"
 func _on_body_entered(body: Node2D) -> void:
 	if body == spawned_from:
 		return
@@ -23,6 +24,9 @@ func _on_body_entered(body: Node2D) -> void:
 		queue_free()
 
 	# TODO - play "destroy" animation
+
+
+# TODO? - separate Static cillision detection
 
 
 func _on_lifetime_timer_timeout():

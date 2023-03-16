@@ -171,7 +171,10 @@ func cast_spell(spell: Spell, target_position: Vector2) -> void:
 
 
 # TODO - refresh hirtbox
-func _on_hirtbox_body_entered(body: Node2D) -> void:
+func _on_hirtbox_area_entered(area: Area2D):  # TODO - (area: Hitbox)  <- script for Hitbox
+	# TEMP
+	var body := area.get_parent()
+
 	if body.is_in_group("Enemy"):
 		#if body.target == self:
 		apply_damage(body.contact_damage)

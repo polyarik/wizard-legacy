@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=24 format=3 uid="uid://ce2bb1q8h0iua"]
 
 [ext_resource type="Script" path="res://scenes/location/characters/player/player.gd" id="1_dxvgr"]
 [ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/location/characters/player/player.png" id="3_e7se3"]
@@ -179,5 +179,5 @@ position = Vector2(-9, -10)
 wait_time = 0.5
 autostart = true
 
-[connection signal="body_entered" from="Hirtbox" to="." method="_on_hirtbox_body_entered"]
+[connection signal="area_entered" from="Hirtbox" to="." method="_on_hirtbox_area_entered"]
 [connection signal="animation_finished" from="PlayerAnimationTree" to="." method="_on_player_animation_tree_animation_finished"]
