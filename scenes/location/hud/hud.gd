@@ -9,7 +9,7 @@ extends CanvasLayer
 @onready var player_character := get_node("../Characters/Player") as PlayerCharacter
 
 
-func _ready():
+func _ready() -> void:
 	player_character.health_changed.connect(_on_player_heath_changed)
 	effects_animation_player.play("pulsing")
 

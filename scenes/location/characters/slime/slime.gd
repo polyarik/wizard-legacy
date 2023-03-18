@@ -28,7 +28,7 @@ var energy_reward := 10.0
 )
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
 	# TODO - sense the player only if they're near, otherwise move randomly
 	if target == null:
 		target = get_tree().get_first_node_in_group("Player")

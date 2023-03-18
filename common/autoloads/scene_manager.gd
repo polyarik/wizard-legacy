@@ -12,7 +12,7 @@ var current_scene: Node
 @onready var animation_player := $TransitionAnimations as AnimationPlayer
 
 
-func _ready():
+func _ready() -> void:
 	var root := get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
 
@@ -44,6 +44,7 @@ func goto_home() -> void:
 func _deferred_goto_scene(scene: PackedScene) -> void:
 	current_scene.free()
 	current_scene = scene.instantiate()
+	# TODO - connect signals
 
 	get_tree().root.add_child(current_scene)
 	get_tree().current_scene = current_scene

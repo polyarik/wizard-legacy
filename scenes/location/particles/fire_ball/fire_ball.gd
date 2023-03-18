@@ -39,6 +39,6 @@ func blast() -> void:
 	# TODO - play "blast" animation
 
 
-func _on_lifetime_timer_timeout():
+func _on_lifetime_timer_timeout() -> void:
 	# TODO - play "fade" animation
 	queue_free()

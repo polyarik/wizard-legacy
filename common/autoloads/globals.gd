@@ -2,6 +2,7 @@ extends Node
 
 # TODO - load from local
 @export var picked_spells = ["fire_ball", "magic_missile"]
+# TODO - temp: var global_score := 0
 
 
 # --- Global Functions ---
