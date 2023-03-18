@@ -39,77 +39,82 @@ var is_hurt := false
 
 
 func _ready() -> void:
+	for spell_name in Globals.picked_spells:
+		var spell = SpellBook.get_spell(spell_name)
+		learn_spell(spell)
+
 	began_spell_cast.connect(_on_cast_spell)  # TEMP - move to SpellManager
 	print("player health: ", health)
 
 
 # TODO - refactor
-func learn_spells(new_spells: Array[Spell]) -> void:
-	for spell in new_spells:
-		if spell:
-			spells.append(spell)
-			var spell_num := len(spells) - 1
-
-			var spell_nodes := Node2D.new()
-			spell_nodes.name = "SpellNodes" + str(spell_num)
-			spell_manager.add_child(spell_nodes)
-
-			var spell_timer := Globals.create_timer(
-				func() -> void: spells[spell_num].on_cooldown = false,
-				spell.cooldown,
-				true,
-				"SpellCooldown" + str(spell_num)
-			)
-
-			spell_nodes.add_child(spell_timer)
-			spells_timer.append(spell_timer)
-
-			# TODO? - use match
-			if spell.cast_conditions.has("max_distance"):
-				spells_target.append(null)
-
-				var area_radius: float = spell.cast_conditions["max_distance"]
-				var enemy_detection_area := Globals.create_circle_area(
-					area_radius, 0, 4, "EnemyDetection" + str(spell_num)
-				)
-				spell_nodes.add_child(enemy_detection_area)
-
-				#if spell.target == "closest":
-				enemy_detection_timer.timeout.connect(
-					func() -> void:
-						var closest_enemy: CharacterBody2D = null
-						var min_dist: float = spell.cast_conditions["max_distance"]
+func learn_spell(spell: Spell) -> void:
+	if not spell:
+		return
 	
-						for body in enemy_detection_area.get_overlapping_bodies():
-							if body.is_in_group("Enemy"):
-								var new_dist := global_position.distance_to(body.global_position)
-	
-								if new_dist <= min_dist:
-									min_dist = new_dist
-									closest_enemy = body
-	
-						spells_target[spell_num] = closest_enemy
-						spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false
-				)
+	spells.append(spell)
+	var spell_num := len(spells) - 1
 
-				if spell.cast_conditions.has("visible_target"):
-					# TODO
-					print("-_-")
+	var spell_nodes := Node2D.new()
+	spell_nodes.name = "SpellNodes" + str(spell_num)
+	spell_manager.add_child(spell_nodes)
 
-			var spell_cast_timer := Globals.create_timer(
-				func() -> void:
-					spells_timer[spell_num].start()  # start spell cooldown
-					self.is_casting = false
-	
-					if spells_target[spell_num] and is_instance_valid(spells_target[spell_num]):  # TEMP
-						cast_spell(spells[spell_num], spells_target[spell_num].global_position),
-				spell.cast_time,
-				true,
-				"SpellCastingDelay" + str(spell_num)
-			)
+	var spell_timer := Globals.create_timer(
+		func() -> void: spells[spell_num].on_cooldown = false,
+		spell.cooldown,
+		true,
+		"SpellCooldown" + str(spell_num)
+	)
 
-			spell_nodes.add_child(spell_cast_timer)
-			spells_cast_timer.append(spell_cast_timer)
+	spell_nodes.add_child(spell_timer)
+	spells_timer.append(spell_timer)
+
+	# TODO? - use match
+	if spell.cast_conditions.has("max_distance"):
+		spells_target.append(null)
+
+		var area_radius: float = spell.cast_conditions["max_distance"]
+		var enemy_detection_area := Globals.create_circle_area(
+			area_radius, 0, 4, "EnemyDetection" + str(spell_num)
+		)
+		spell_nodes.add_child(enemy_detection_area)
+
+		#if spell.target == "closest":
+		enemy_detection_timer.timeout.connect(
+			func() -> void:
+				var closest_enemy: CharacterBody2D = null
+				var min_dist: float = spell.cast_conditions["max_distance"]
+
+				for body in enemy_detection_area.get_overlapping_bodies():
+					if body.is_in_group("Enemy"):
+						var new_dist := global_position.distance_to(body.global_position)
+
+						if new_dist <= min_dist:
+							min_dist = new_dist
+							closest_enemy = body
+
+				spells_target[spell_num] = closest_enemy
+				spells[spell_num].conditions_met["max_distance"] = true if closest_enemy else false
+		)
+
+		if spell.cast_conditions.has("visible_target"):
+			# TODO
+			print("-_-")
+
+	var spell_cast_timer := Globals.create_timer(
+		func() -> void:
+			spells_timer[spell_num].start()  # start spell cooldown
+			self.is_casting = false
+
+			if spells_target[spell_num] and is_instance_valid(spells_target[spell_num]):  # TEMP
+				cast_spell(spells[spell_num], spells_target[spell_num].global_position),
+		spell.cast_time,
+		true,
+		"SpellCastingDelay" + str(spell_num)
+	)
+
+	spell_nodes.add_child(spell_cast_timer)
+	spells_cast_timer.append(spell_cast_timer)
 
 
 func _physics_process(_delta: float) -> void:

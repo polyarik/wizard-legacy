@@ -31,8 +31,6 @@ func goto_location(location_name: String) -> void:
 
 
 func goto_home() -> void:
-	PhysicsServer2D.set_active(false)
-
 	# TODO - handle location progress results
 
 	animation_player.play("to_home")

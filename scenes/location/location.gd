@@ -32,14 +32,6 @@ func _ready() -> void:
 
 	energy = 0.0  # TEMP
 
-	# TODO? - do it in PlayerCharacter
-	var spells: Array[Spell] = []
-
-	for spell in Globals.picked_spells:
-		spells.append(SpellBook.get_spell(spell))
-
-	player.learn_spells(spells)
-
 	start_spawning_enemies()
 
 
@@ -96,6 +88,8 @@ func on_entity_death(entity: CharacterBody2D) -> void:
 
 
 func on_player_death() -> void:
+	PhysicsServer2D.set_active(false)
+
 	# TODO - show death screen -> goto_home
 	enemy_spawn_timer.stop()
 
