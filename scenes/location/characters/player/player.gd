@@ -1,7 +1,8 @@
 class_name PlayerCharacter
 extends CharacterBody2D
 
-signal cast(spell_num: int)  # TODO - rename to "cast_spell", receive in SpellManager
+signal began_spell_cast(spell_num: int)  # TODO - receive in SpellManager
+signal cast(spell_inst: Node)  # TODO - rename to "cast_spell", emit in SpellManager?
 signal health_changed(change: float, value: float, max: float)
 signal died()
 
@@ -38,7 +39,7 @@ var is_hurt := false
 
 
 func _ready() -> void:
-	cast.connect(_on_cast_spell)  # TEMP - move to SpellManager
+	began_spell_cast.connect(_on_cast_spell)  # TEMP - move to SpellManager
 	print("player health: ", health)
 
 
@@ -147,7 +148,7 @@ func process_spell_casting() -> void:
 			animation_state_machine.travel("attack")
 			is_casting = true
 
-			emit_signal("cast", i)
+			emit_signal("began_spell_cast", i)
 			return
 
 
@@ -167,7 +168,7 @@ func cast_spell(spell: Spell, target_position: Vector2) -> void:
 	spell_inst.position = spell_position
 	spell_inst.direction = spell_position.direction_to(target_position)  # TEMP
 
-	GameManager.add_projectile(spell_inst)
+	emit_signal("cast", spell_inst)
 
 
 # TODO - refresh hirtbox

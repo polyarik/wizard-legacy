@@ -42,6 +42,7 @@ func load_location() -> void:
 
 	player = location_node.get_tree().get_first_node_in_group("Player")
 	player.died.connect(on_player_death)  # TEMP - move to Location class
+	player.cast.connect(add_projectile)  # TODO - connect to player's SpellManager
 
 	energy = 0.0  # TEMP
 
