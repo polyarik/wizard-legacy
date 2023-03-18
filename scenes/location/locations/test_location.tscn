@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://xm0gl5fd3fvv"]
+[gd_scene load_steps=10 format=3 uid="uid://xm0gl5fd3fvv"]
 
-[ext_resource type="PackedScene" path="res://scenes/location/location.tscn" id="1_wudl3"]
+[ext_resource type="PackedScene" uid="uid://8pb30c3ktsvt" path="res://scenes/location/location.tscn" id="1_wudl3"]
 [ext_resource type="Texture2D" uid="uid://ctelqfs6qptcc" path="res://scenes/location/locations/demo_tilemap.png" id="2_3gdap"]
-[ext_resource type="PackedScene" path="res://scenes/location/static/rock.tscn" id="3_j1ogx"]
-[ext_resource type="PackedScene" path="res://scenes/location/characters/slime/slime.tscn" id="4_em02n"]
+[ext_resource type="Script" path="res://scenes/location/locations/test_location.gd" id="2_k6ifu"]
+[ext_resource type="PackedScene" uid="uid://dqm4p0r20m25u" path="res://scenes/location/static/rock.tscn" id="3_j1ogx"]
+[ext_resource type="PackedScene" uid="uid://4ahr3e07oymh" path="res://scenes/location/characters/slime/slime.tscn" id="4_em02n"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3bgk7"]
 
@@ -36,6 +37,7 @@ sources/0 = SubResource("TileSetAtlasSource_8w4gt")
 sources/1 = SubResource("TileSetScenesCollectionSource_ce3gy")
 
 [node name="TestLocation" instance=ExtResource("1_wudl3")]
+script = ExtResource("2_k6ifu")
 
 [node name="TestTerrain" type="TileMap" parent="Static" index="0"]
 y_sort_enabled = true

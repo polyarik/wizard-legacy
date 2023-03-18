@@ -24,14 +24,16 @@ func goto_location(location_name: String) -> void:
 		animation_player.play("to_location")
 		await animation_player.animation_finished
 
+		PhysicsServer2D.set_active(true)
 		call_deferred("_deferred_goto_scene", location)
-		GameManager.call_deferred("load_location")
 
 		animation_player.call_deferred("play_backwards", "to_location")
 
 
 func goto_home() -> void:
-	# TODO - handle location progress results in GameManager
+	PhysicsServer2D.set_active(false)
+
+	# TODO - handle location progress results
 
 	animation_player.play("to_home")
 	await animation_player.animation_finished

@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://8pb30c3ktsvt"]
+[gd_scene load_steps=4 format=3 uid="uid://8pb30c3ktsvt"]
 
+[ext_resource type="Script" path="res://scenes/location/location.gd" id="1_0ul8y"]
 [ext_resource type="PackedScene" uid="uid://ce2bb1q8h0iua" path="res://scenes/location/characters/player/player.tscn" id="1_v1huy"]
 [ext_resource type="PackedScene" path="res://scenes/location/hud/hud.tscn" id="2_1vhiv"]
 
 [node name="Location" type="Node2D" groups=["Location"]]
 y_sort_enabled = true
+script = ExtResource("1_0ul8y")
 
 [node name="Static" type="Node2D" parent="."]
 y_sort_enabled = true

@@ -22,7 +22,6 @@ boot_splash/use_filter=false
 
 Globals="*res://common/autoloads/globals.gd"
 SceneManager="*res://common/autoloads/scene_manager.tscn"
-GameManager="*res://common/autoloads/game_manager.gd"
 SpellBook="*res://common/autoloads/spell_book.gd"
 
 [debug]

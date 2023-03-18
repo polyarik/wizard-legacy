@@ -1,18 +1,18 @@
-extends Node
+class_name Location
+extends Node2D
 
-##
-
-# TODO - split to classes: Location , ...
+var location_name := "Template"
 
 var location_node: Node2D
 var characters_node: Node2D
 var projectiles_node: Node2D
+
 var player: PlayerCharacter
 
-# TEMP ---
+# TEMP --- TODO - implement Spawner class
 #var enemies: Array[Enemy] # TODO
 var enemies: Array[PackedScene] = [
-	preload("res://scenes/location/characters/slime/slime.tscn"),
+	preload("res://scenes/location/characters/slime/slime.tscn"),  # TODO? - get reference from Preloads.enemies.slime
 ]
 # TODO - implement different spawn modes
 # TODO - implement world boundaries
@@ -25,7 +25,25 @@ var enemy_spawn_cooldown := 2.0
 var energy := 0.0  # TEMP
 
 
-func load_location() -> void:
+func _ready() -> void:
+	get_location_nodes()
+	# TODO - play location animation
+	print("LOCATION: ", location_name)  # TEST
+
+	energy = 0.0  # TEMP
+
+	# TODO? - do it in PlayerCharacter
+	var spells: Array[Spell] = []
+
+	for spell in Globals.picked_spells:
+		spells.append(SpellBook.get_spell(spell))
+
+	player.learn_spells(spells)
+
+	start_spawning_enemies()
+
+
+func get_location_nodes() -> void:
 	location_node = get_tree().get_first_node_in_group("Location")
 
 	characters_node = location_node.get_node_or_null("Characters")
@@ -41,23 +59,10 @@ func load_location() -> void:
 		location_node.add_child(projectiles_node)
 
 	player = location_node.get_tree().get_first_node_in_group("Player")
-	player.died.connect(on_player_death)  # TEMP - move to Location class
+	player.died.connect(on_player_death)
 	player.cast.connect(add_projectile)  # TODO - connect to player's SpellManager
 
-	energy = 0.0  # TEMP
 
-	var spells: Array[Spell] = []
-
-	for spell in Globals.picked_spells:
-		spells.append(SpellBook.get_spell(spell))
-
-	player.learn_spells(spells)
-
-	start_spawning_enemies()
-	PhysicsServer2D.set_active(true)
-
-
-# TEMP - move to Location class
 func start_spawning_enemies() -> void:
 	# TODO - implement different spawn conditions
 	enemy_spawn_timer = Globals.create_timer(
@@ -68,7 +73,6 @@ func start_spawning_enemies() -> void:
 	enemy_spawn_timer.start()
 
 
-# TEMP - move to Location class
 func spawn_enemy(enemy: PackedScene) -> void:
 	var rand_radius := randf_range(enemy_min_spawn_distance, enemy_max_spawn_distance)
 	var rand_angle := randf_range(0, TAU)
@@ -87,17 +91,12 @@ func add_projectile(spell_inst: Node) -> void:
 
 func on_entity_death(entity: CharacterBody2D) -> void:
 	if entity.is_in_group("Enemy"):
-		energy += entity.energy_reward  # TEMP
+		energy += entity.energy_reward  # TEMP; TODO - handle leveling system
 		print("energy: ", energy)
 
 
 func on_player_death() -> void:
-	PhysicsServer2D.set_active(false)
-
 	# TODO - show death screen -> goto_home
-
-	# TEMP
 	enemy_spawn_timer.stop()
-	enemy_spawn_timer.queue_free()
 
-	SceneManager.goto_home()
+	SceneManager.goto_home()  # TEMP
