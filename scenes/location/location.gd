@@ -1,6 +1,8 @@
 class_name Location
 extends Node2D
 
+signal player_died(energy: float) # TEST
+
 var location_name := "Template"
 
 var location_node: Node2D
@@ -26,13 +28,17 @@ var energy := 0.0  # TEMP
 
 
 func _ready() -> void:
+	connect_signals()
+
 	get_location_nodes()
 	# TODO - play location animation
 	print("LOCATION: ", location_name)  # TEST
 
-	energy = 0.0  # TEMP
-
 	start_spawning_enemies()
+
+
+func connect_signals() -> void:
+	player_died.connect(Globals.add_energy)
 
 
 func get_location_nodes() -> void:
@@ -43,6 +49,9 @@ func get_location_nodes() -> void:
 		characters_node = Node2D.new()
 		characters_node.name = "Characters"
 		location_node.add_child(characters_node)
+
+	for enemy_inst in get_tree().get_nodes_in_group("Enemy"):
+		enemy_inst.died.connect(on_enemy_death)
 
 	projectiles_node = location_node.get_node_or_null("Projectiles")
 	if projectiles_node == null:
@@ -71,7 +80,7 @@ func spawn_enemy(enemy: PackedScene) -> void:
 	var spawn_position := Vector2(cos(rand_angle) * rand_radius, sin(rand_angle) * rand_radius)
 
 	var enemy_inst := enemy.instantiate()
-	enemy_inst.died.connect(on_entity_death)
+	enemy_inst.died.connect(on_enemy_death)
 	enemy_inst.global_position = player.global_position + spawn_position
 
 	characters_node.add_child(enemy_inst)
@@ -81,16 +90,16 @@ func add_projectile(spell_inst: Node) -> void:
 	projectiles_node.add_child(spell_inst)
 
 
-func on_entity_death(entity: CharacterBody2D) -> void:
-	if entity.is_in_group("Enemy"):
-		energy += entity.energy_reward  # TEMP; TODO - handle leveling system
-		print("energy: ", energy)
+func on_enemy_death(enemy: CharacterBody2D) -> void:
+	energy += enemy.energy_reward  # TEMP; TODO - handle leveling system
+	print("energy: ", energy)
 
 
 func on_player_death() -> void:
 	PhysicsServer2D.set_active(false)
+	enemy_spawn_timer.stop()
 
 	# TODO - show death screen -> goto_home
-	enemy_spawn_timer.stop()
+	emit_signal("player_died", energy)
 
 	SceneManager.goto_home()  # TEMP

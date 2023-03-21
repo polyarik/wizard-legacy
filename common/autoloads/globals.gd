@@ -2,10 +2,16 @@ extends Node
 
 # TODO - load from local
 @export var picked_spells = ["fire_ball", "magic_missile"]
-# TODO - temp: var global_score := 0
+@export var global_energy := 0.0  # TEMP
 
 
-# --- Global Functions ---
+# TEST
+func add_energy(energy: float) -> void:
+	global_energy += energy
+	print(energy)
+	print("global energy: ", global_energy)
+
+
 func create_timer(
 	callback: Callable, cooldown: float, is_one_shot := true, timer_name := ""
 ) -> Timer:
