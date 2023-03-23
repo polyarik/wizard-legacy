@@ -1,7 +1,7 @@
 class_name Location
 extends Node2D
 
-signal player_died(energy: float) # TEST
+signal player_died(energy: float)  # TEST
 
 var location_name := "Template"
 

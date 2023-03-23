@@ -12,7 +12,7 @@ var health := max_health:
 		health = value
 
 		if health == 0.0:
-			emit_signal("died", self)
+			# TODO - store cause of death
 			# TODO - play "death" animation and only then queue_free()
 			queue_free()
 
@@ -45,3 +45,6 @@ func apply_damage(damage: float) -> void:
 	if damage > 0:
 		animation_state_machine.travel("hurt")
 		# TODO - change current state to "hurt"
+
+func _exit_tree() -> void:
+	emit_signal("died", self)  # TODO - pass cause of death
