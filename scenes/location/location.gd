@@ -32,7 +32,7 @@ func _ready() -> void:
 
 	get_location_nodes()
 	# TODO - play location animation
-	print("LOCATION: ", location_name)  # TEST
+	print("> LOCATION: ", location_name)  # TEST
 
 	start_spawning_enemies()
 
@@ -92,7 +92,7 @@ func add_projectile(spell_inst: Node) -> void:
 
 func on_enemy_death(enemy: CharacterBody2D) -> void:
 	energy += enemy.energy_reward  # TEMP; TODO - handle leveling system
-	print("energy: ", energy)
+	print("✨ energy: ", energy)
 
 
 func on_player_death() -> void:

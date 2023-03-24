@@ -8,8 +8,8 @@ extends Node
 # TEST
 func add_energy(energy: float) -> void:
 	global_energy += energy
-	print(energy)
-	print("global energy: ", global_energy)
+	print("(✨ energy from run: ", energy, ")")
+	print("(✨ global energy: ", global_energy, ")")
 
 
 func create_timer(

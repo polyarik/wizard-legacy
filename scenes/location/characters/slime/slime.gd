@@ -46,5 +46,6 @@ func apply_damage(damage: float) -> void:
 		animation_state_machine.travel("hurt")
 		# TODO - change current state to "hurt"
 
+
 func _exit_tree() -> void:
 	emit_signal("died", self)  # TODO - pass cause of death

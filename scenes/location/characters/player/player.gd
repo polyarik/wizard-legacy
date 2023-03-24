@@ -44,7 +44,7 @@ func _ready() -> void:
 		learn_spell(spell)
 
 	began_spell_cast.connect(_on_cast_spell)  # TEMP - move to SpellManager
-	print("player health: ", health)
+	print("❤️ player health: ", health)
 
 
 # TODO - refactor
@@ -197,7 +197,7 @@ func apply_damage(damage: float) -> void:
 		animation_state_machine.travel("hurt")
 		is_hurt = true
 
-	print("player health: ", health)
+	print("💔 player health: ", health)
 
 
 func push(force: Vector2) -> void:
