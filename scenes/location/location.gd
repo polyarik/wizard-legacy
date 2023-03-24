@@ -1,6 +1,7 @@
 class_name Location
 extends Node2D
 
+signal started(location_name: String)
 signal player_died(energy: float)  # TEST
 
 var location_name := "Template"
@@ -32,13 +33,15 @@ func _ready() -> void:
 
 	get_location_nodes()
 	# TODO - play location animation
-	print("> LOCATION: ", location_name)  # TEST
 
+	emit_signal("started", location_name)
 	start_spawning_enemies()
 
 
 func connect_signals() -> void:
-	player_died.connect(Globals.add_energy)
+	started.connect(DebugPrinter._on_location_started)
+	player_died.connect(DebugPrinter._on_player_died)
+	player_died.connect(Globals.add_energy)  # TEST
 
 
 func get_location_nodes() -> void:
@@ -92,7 +95,8 @@ func add_projectile(spell_inst: Node) -> void:
 
 func on_enemy_death(enemy: CharacterBody2D) -> void:
 	if enemy.cause_of_death == player:
-		energy += enemy.energy_reward  # TEMP; TODO - handle leveling system
+		# TEMP; TODO - handle leveling system
+		energy += enemy.energy_reward
 		print("✨ energy: ", energy)
 
 

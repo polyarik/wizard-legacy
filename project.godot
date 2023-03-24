@@ -20,6 +20,7 @@ boot_splash/use_filter=false
 
 [autoload]
 
+DebugPrinter="*res://common/autoloads/debug_printer.gd"
 Globals="*res://common/autoloads/globals.gd"
 SceneManager="*res://common/autoloads/scene_manager.tscn"
 SpellBook="*res://common/autoloads/spell_book.gd"

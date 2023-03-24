@@ -10,11 +10,11 @@ extends CanvasLayer
 
 
 func _ready() -> void:
-	player_character.health_changed.connect(_on_player_heath_changed)
+	player_character.health_changed.connect(_on_player_health_changed)
 	effects_animation_player.play("pulsing")
 
 
-func _on_player_heath_changed(_change: float, health: float, max_health: float) -> void:
+func _on_player_health_changed(_change: float, health: float, max_health: float) -> void:
 	if health <= 0 or health >= max_health * 0.3:
 		_set_effect("low_hp")
 	else:

@@ -8,7 +8,7 @@ signal died()
 
 @export var speed := 64.0
 @export var max_health := 100.0
-@export var health := 100.0:
+@export var health := max_health:
 	get:
 		return health
 	set(value):
@@ -39,12 +39,18 @@ var is_hurt := false
 
 
 func _ready() -> void:
+	connect_signals()
+
+	health = max_health
+
 	for spell_name in Globals.picked_spells:
 		var spell = SpellBook.get_spell(spell_name)
 		learn_spell(spell)
 
+
+func connect_signals() -> void:
+	health_changed.connect(DebugPrinter._on_player_health_changed)
 	began_spell_cast.connect(_on_cast_spell)  # TEMP - move to SpellManager
-	print("❤️ player health: ", health)
 
 
 # TODO - refactor
@@ -196,8 +202,6 @@ func apply_damage(damage: float) -> void:
 	if damage > 0:
 		animation_state_machine.travel("hurt")
 		is_hurt = true
-
-	print("💔 player health: ", health)
 
 
 func push(force: Vector2) -> void:
