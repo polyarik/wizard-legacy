@@ -20,7 +20,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 	if body.is_in_group("Enemy"):
 		var enemy := body as Slime  # TODO - as Enemy
-		enemy.apply_damage(damage)
+		enemy.apply_damage(damage, spawned_from)
 		blast()
 		queue_free()
 	elif body.is_in_group("Static"):
@@ -34,7 +34,7 @@ func blast() -> void:
 	for body in blast_area.get_overlapping_bodies():
 		if body.is_in_group("Enemy"):
 			var enemy := body as Slime  # TODO - as Enemy
-			enemy.apply_damage(blast_damage)
+			enemy.apply_damage(blast_damage, spawned_from)
 
 	# TODO - play "blast" animation
 

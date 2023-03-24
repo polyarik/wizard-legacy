@@ -18,7 +18,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 	if body.is_in_group("Enemy"):
 		var enemy := body as Slime  # TODO - as Enemy
-		enemy.apply_damage(damage)
+		enemy.apply_damage(damage, spawned_from)
 		queue_free()
 	elif body.is_in_group("Static"):
 		queue_free()
@@ -26,9 +26,14 @@ func _on_body_entered(body: Node2D) -> void:
 	# TODO - play "destroy" animation
 
 
+func _on_area_entered(_area: Area2D) -> void:
+	#print("area ", area)
+	pass
+
+
 # TODO? - separate Static cillision detection
 
 
-func _on_lifetime_timer_timeout():
+func _on_lifetime_timer_timeout() -> void:
 	# TODO - play "fade" animation
 	queue_free()

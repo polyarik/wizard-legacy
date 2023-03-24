@@ -91,8 +91,9 @@ func add_projectile(spell_inst: Node) -> void:
 
 
 func on_enemy_death(enemy: CharacterBody2D) -> void:
-	energy += enemy.energy_reward  # TEMP; TODO - handle leveling system
-	print("✨ energy: ", energy)
+	if enemy.cause_of_death == player:
+		energy += enemy.energy_reward  # TEMP; TODO - handle leveling system
+		print("✨ energy: ", energy)
 
 
 func on_player_death() -> void:

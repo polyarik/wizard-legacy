@@ -1,9 +1,11 @@
 class_name Slime  # TODO - extract base logic to "Enemy" class
 extends CharacterBody2D
 
-signal died(entity: Slime)
+signal died(entity: Slime, cause: Node)
 
-var speed := 20.0
+var last_damage_source: Node = null
+var cause_of_death: Node = null
+
 var max_health := 25.0
 var health := max_health:
 	get:
@@ -11,14 +13,16 @@ var health := max_health:
 	set(value):
 		health = value
 
-		if health == 0.0:
-			# TODO - store cause of death
+		if health == 0.0 and not cause_of_death:
+			cause_of_death = last_damage_source
 			# TODO - play "death" animation and only then queue_free()
 			queue_free()
 
+var speed := 20.0
+
 var contact_damage := 10.0
 var push_force := 500.0  # TEMP
-var target: PlayerCharacter
+var target: Node2D = null
 
 var energy_reward := 10.0
 
@@ -39,13 +43,15 @@ func _physics_process(_delta: float) -> void:
 
 
 # TODO - pass the damage source refrence
-func apply_damage(damage: float) -> void:
+func apply_damage(damage: float, source: Node = null) -> void:
+	last_damage_source = source
 	health = clamp(health - damage, 0.0, max_health)
 
 	if damage > 0:
+		# TODO - different animation for every damage type
 		animation_state_machine.travel("hurt")
 		# TODO - change current state to "hurt"
 
 
 func _exit_tree() -> void:
-	emit_signal("died", self)  # TODO - pass cause of death
+	emit_signal("died", self)
