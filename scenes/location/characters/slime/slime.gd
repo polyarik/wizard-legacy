@@ -19,6 +19,7 @@ var health := max_health:
 			queue_free()
 
 var speed := 20.0
+var max_velocity := 300.0
 
 var contact_damage := 10.0
 var push_force := 500.0  # TEMP
@@ -39,6 +40,7 @@ func _physics_process(_delta: float) -> void:
 
 	if target:
 		velocity = position.direction_to(target.position) * speed
+		velocity = velocity.limit_length(max_velocity)
 		move_and_slide()
 
 

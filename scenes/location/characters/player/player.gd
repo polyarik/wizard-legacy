@@ -6,7 +6,6 @@ signal cast(spell_inst: Node)  # TODO - rename to "cast_spell", emit in SpellMan
 signal health_changed(change: float, value: float, max: float)
 signal died()
 
-@export var speed := 64.0
 @export var max_health := 100.0
 @export var health := max_health:
 	get:
@@ -18,6 +17,9 @@ signal died()
 		if health == 0.0:
 			emit_signal("died")
 			# TODO - play "death" animation
+
+@export var speed := 64.0
+@export var max_velocity := 500.0
 
 var spells: Array[Spell]
 var spells_timer: Array[Timer]
@@ -143,6 +145,7 @@ func move() -> void:
 		if velocity != Vector2.ZERO:
 			animation_state_machine.travel("walk")
 
+	velocity = velocity.limit_length(max_velocity)
 	move_and_slide()
 
 
