@@ -18,27 +18,35 @@ func _ready() -> void:
 
 
 func goto_location(location_name: String) -> void:
-	var location: PackedScene = locations.get(location_name, null)
+	if not locations[location_name]:
+		return
 
-	if location:
-		animation_player.play("to_location")
-		await animation_player.animation_finished
+	var location: PackedScene = locations[location_name]
 
-		PhysicsServer2D.set_active(true)
-		call_deferred("_deferred_goto_scene", location)
+	show()
+	animation_player.play("to_location")
+	await animation_player.animation_finished
 
-		animation_player.call_deferred("play_backwards", "to_location")
+	PhysicsServer2D.set_active(true)
+	call_deferred("_deferred_goto_scene", location)
+
+	animation_player.call_deferred("play_backwards", "to_location")
+	await animation_player.animation_finished
+	hide()
 
 
 func goto_home() -> void:
-	# TODO - handle location progress results
+	# TODO - handle location progress results; or in Location?
 
+	show()
 	animation_player.play("to_home")
 	await animation_player.animation_finished
 
 	call_deferred("_deferred_goto_scene", home_scene)
 
 	animation_player.call_deferred("play_backwards", "to_home")
+	await animation_player.animation_finished
+	hide()
 
 
 func _deferred_goto_scene(scene: PackedScene) -> void:
