@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bgq1ffhqmag8j"]
 
 [ext_resource type="Texture2D" uid="uid://c13dhmpklvcb4" path="res://scenes/location/hud/joystick/textures/joystick_base_outline.png" id="1"]
 [ext_resource type="Script" path="res://scenes/location/hud/joystick/virtual_joystick.gd" id="1_ypvca"]

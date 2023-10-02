@@ -41,6 +41,10 @@ window/handheld/orientation=1
 window/vsync/vsync_mode=0
 window/emulate_touch_from_mouse=true
 
+[gui]
+
+theme/default_font_subpixel_positioning=0
+
 [importer_defaults]
 
 texture={
@@ -105,6 +109,12 @@ pointing/emulate_mouse_from_touch=false
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="Projectile"
+
+[physics]
+
+2d/run_on_separate_thread=true
+3d/run_on_separate_thread=true
+2d/physics_engine="Box2D"
 
 [rendering]
 
