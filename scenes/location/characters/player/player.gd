@@ -203,8 +203,8 @@ func apply_damage(damage: float) -> void:
 	health = clamp(health - damage, 0.0, max_health)
 
 	if damage > 0:
-		animation_state_machine.travel("hurt")
 		is_hurt = true
+		animation_state_machine.travel("hurt")
 
 
 func push(force: Vector2) -> void:

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Wizard Legacy"
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.0", "Mobile")
+config/features=PackedStringArray("4.1", "Mobile")
 run/max_fps=60
 boot_splash/bg_color=Color(0.509804, 0.00392157, 0.784314, 1)
 boot_splash/image="res://icon.png"
@@ -35,10 +35,10 @@ window/size/viewport_width=144
 window/size/viewport_height=256
 window/size/window_width_override=576
 window/size/window_height_override=1024
-window/handheld/orientation=1
-window/vsync/vsync_mode=0
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+window/handheld/orientation=1
+window/vsync/vsync_mode=0
 window/emulate_touch_from_mouse=true
 
 [importer_defaults]
@@ -108,6 +108,7 @@ pointing/emulate_mouse_from_touch=false
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
@@ -116,4 +117,3 @@ textures/default_filters/use_nearest_mipmap_filter=true
 environment/defaults/default_clear_color=Color(0.45098, 0.286275, 0.541176, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
-textures/canvas_textures/default_texture_filter=0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://4ahr3e07oymh"]
+[gd_scene load_steps=13 format=3 uid="uid://4ahr3e07oymh"]
 
 [ext_resource type="Script" path="res://scenes/location/characters/slime/slime.gd" id="1_4spfw"]
 [ext_resource type="Texture2D" uid="uid://cwcnlue1vquf1" path="res://scenes/location/characters/slime/slime.png" id="2_vpgo5"]
@@ -37,7 +37,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_l4fe6"]
 resource_name = "idle"
 length = 0.3
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -82,8 +81,6 @@ states/idle/position = Vector2(359, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_88e31"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_jfl6x"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_iptd6")]
 graph_offset = Vector2(-77, -24)
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_4h584"]
-
 [node name="Slime" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 5
@@ -119,4 +116,3 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_addxf")
 anim_player = NodePath("../SlimeAnimations")
 active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_4h584")

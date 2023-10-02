@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ce2bb1q8h0iua"]
+[gd_scene load_steps=23 format=3 uid="uid://ce2bb1q8h0iua"]
 
 [ext_resource type="Script" path="res://scenes/location/characters/player/player.gd" id="1_dxvgr"]
 [ext_resource type="Texture2D" uid="uid://dlg1p7m1cse3i" path="res://scenes/location/characters/player/player.png" id="3_e7se3"]
@@ -38,7 +38,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_appgp"]
 resource_name = "idle"
 length = 0.3
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -55,7 +54,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_buon0"]
 resource_name = "walk"
 length = 0.4
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -128,9 +126,7 @@ states/idle/position = Vector2(254, 85)
 states/walk/node = SubResource("AnimationNodeAnimation_08j1j")
 states/walk/position = Vector2(679, 85)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vht6e"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_3dkot"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_t4i4r"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_ceqf3"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_wyst6"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_omn4w"), "walk", "hurt", SubResource("AnimationNodeStateMachineTransition_tww4f"), "attack", "hurt", SubResource("AnimationNodeStateMachineTransition_wg2b3"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_6bnup"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_e45ta")]
-graph_offset = Vector2(-150, -146)
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_0x1nf"]
+graph_offset = Vector2(-130, -119)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 0
@@ -158,6 +154,7 @@ texture = ExtResource("3_e7se3")
 offset = Vector2(0, -3)
 hframes = 2
 vframes = 3
+frame = 2
 
 [node name="PlayerAnimations" type="AnimationPlayer" parent="."]
 libraries = {
@@ -168,7 +165,6 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_3xrq7")
 anim_player = NodePath("../PlayerAnimations")
 active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_0x1nf")
 
 [node name="CastingPoint" type="Marker2D" parent="."]
 position = Vector2(-9, -10)
